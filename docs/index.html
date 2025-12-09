@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamdani Research - Slideshow Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+            color: #c9d1d9;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #58a6ff, #a371f7, #f85149);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #8b949e;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #58a6ff;
+            box-shadow: 0 10px 40px rgba(88, 166, 255, 0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            font-size: 1.4em;
+            color: #58a6ff;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #8b949e;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .card-tags {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            background: rgba(88, 166, 255, 0.15);
+            color: #58a6ff;
+        }
+
+        .tag.policy { background: rgba(163, 113, 247, 0.15); color: #a371f7; }
+        .tag.crypto { background: rgba(248, 81, 73, 0.15); color: #f85149; }
+        .tag.analysis { background: rgba(35, 134, 54, 0.15); color: #3fb950; }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #30363d;
+            color: #8b949e;
+        }
+
+        footer a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #58a6ff;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .github-link:hover {
+            background: rgba(88, 166, 255, 0.2);
+            border-color: #58a6ff;
+        }
+
+        .github-link svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mamdani Research</h1>
+            <p class="subtitle">A collection of research slideshows analyzing Zohran Mamdani's policies, NYC crypto programs, and blockchain opportunities for progressive governance.</p>
+        </header>
+
+        <div class="cards">
+            <a href="slides/mamdani-policies.html" class="card">
+                <div class="card-icon">📋</div>
+                <h2>Mamdani Policy Research</h2>
+                <p>Comprehensive analysis of Zohran Mamdani's policy positions across housing, healthcare, taxes, immigration, climate, education, and more.</p>
+                <div class="card-tags">
+                    <span class="tag policy">Policy</span>
+                    <span class="tag">14 Slides</span>
+                </div>
+            </a>
+
+            <a href="slides/crypto-report.html" class="card">
+                <div class="card-icon">🏛️</div>
+                <h2>NYC Crypto Programs Report</h2>
+                <p>Detailed analysis of NYC's public cryptocurrency and blockchain programs, budgets, personnel, and regulatory environment.</p>
+                <div class="card-tags">
+                    <span class="tag crypto">Crypto</span>
+                    <span class="tag analysis">Analysis</span>
+                </div>
+            </a>
+
+            <a href="slides/leftist-analysis.html" class="card">
+                <div class="card-icon">🔴</div>
+                <h2>NYC Crypto: Leftist Analysis</h2>
+                <p>Critical examination of NYC crypto programs through economic justice, public ownership, worker power, and democratic governance frameworks.</p>
+                <div class="card-tags">
+                    <span class="tag analysis">Analysis</span>
+                    <span class="tag crypto">Crypto</span>
+                </div>
+            </a>
+
+            <a href="slides/crypto-opportunities.html" class="card">
+                <div class="card-icon">💡</div>
+                <h2>Crypto Opportunities for Mamdani</h2>
+                <p>How blockchain technology could advance Mamdani's democratic socialist agenda - from deed registries to immigrant privacy tools.</p>
+                <div class="card-tags">
+                    <span class="tag policy">Policy</span>
+                    <span class="tag crypto">Crypto</span>
+                </div>
+            </a>
+
+            <a href="slides/crypto-left-crossref.html" class="card">
+                <div class="card-icon">🍞</div>
+                <h2>Crypto Left & Mamdani Cross-Reference</h2>
+                <p>Analysis of Bread Co-op, Communet.xyz, and progressive blockchain tools aligned with democratic socialist governance.</p>
+                <div class="card-tags">
+                    <span class="tag policy">Policy</span>
+                    <span class="tag crypto">Crypto</span>
+                    <span class="tag analysis">Analysis</span>
+                </div>
+            </a>
+        </div>
+
+        <footer>
+            <p>Research compiled December 2025</p>
+            <a href="https://github.com/RonTuretzky/mamdani-research" class="github-link">
+                <svg viewBox="0 0 16 16">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                View on GitHub
+            </a>
+        </footer>
+    </div>
+</body>
+</html>

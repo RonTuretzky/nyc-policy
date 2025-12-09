@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Left & Mamdani Policy Cross-Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d1f1f 50%, #1a0a0a 100%);
+            color: #f5e6d3;
+            min-height: 100vh;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 35px 55px;
+            overflow-y: auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 2.6em;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #d4a574, #e8c9a0, #d4a574);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 1.9em;
+            margin-bottom: 15px;
+            color: #d4a574;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin: 15px 0 10px;
+            color: #e8c9a0;
+        }
+
+        p, li {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.85em;
+        }
+
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+        }
+
+        th {
+            background: rgba(212, 165, 116, 0.15);
+            color: #d4a574;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(212, 165, 116, 0.05);
+        }
+
+        a {
+            color: #e8c9a0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .qr-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 4px;
+            padding: 6px;
+            background: rgba(212, 165, 116, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(212, 165, 116, 0.2);
+        }
+
+        .qr-container img {
+            width: 65px;
+            height: 65px;
+            border-radius: 4px;
+        }
+
+        .qr-container span {
+            font-size: 0.6em;
+            margin-top: 4px;
+            color: #a89070;
+            max-width: 80px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .qr-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #8b5a2b, #a0522d);
+            border: none;
+            color: #f5e6d3;
+            font-size: 1em;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(139, 90, 43, 0.4);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 90, 43, 0.6);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d4a574, #8b5a2b);
+            transition: width 0.3s;
+            z-index: 1000;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            font-size: 1.1em;
+            color: rgba(245, 230, 211, 0.6);
+        }
+
+        .highlight-box {
+            background: rgba(212, 165, 116, 0.1);
+            border-left: 4px solid #d4a574;
+            padding: 12px 18px;
+            margin: 12px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box.red {
+            background: rgba(180, 70, 70, 0.15);
+            border-left-color: #b44646;
+        }
+
+        .highlight-box.green {
+            background: rgba(70, 130, 70, 0.15);
+            border-left-color: #468246;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: rgba(212, 165, 116, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(212, 165, 116, 0.2);
+        }
+
+        .stat-box .number {
+            font-size: 2em;
+            color: #d4a574;
+            font-weight: bold;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            margin: 2px;
+        }
+
+        .tag.high { background: rgba(70, 130, 70, 0.4); color: #90d490; }
+        .tag.medium { background: rgba(200, 160, 60, 0.4); color: #e8d080; }
+        .tag.low { background: rgba(212, 165, 116, 0.3); color: #e8c9a0; }
+        .tag.nyc { background: rgba(180, 70, 70, 0.4); color: #e09090; }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li::before {
+            content: "◈ ";
+            color: #d4a574;
+        }
+
+        .bread-logo {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+
+        .project-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+        }
+
+        .project-card h4 {
+            color: #d4a574;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-counter" id="slideCounter"></div>
+
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80%;">
+                <div style="font-size: 4em; margin-bottom: 20px;">🍞⛓️</div>
+                <h1 style="font-size: 2.8em; text-align: center;">Crypto Left Technology</h1>
+                <h2 style="font-size: 1.8em; text-align: center; color: #e8c9a0;">&</h2>
+                <h1 style="font-size: 2.8em; text-align: center;">Mamdani Policy Cross-Reference</h1>
+                <p style="font-size: 1.1em; margin-top: 30px; color: #a89070; text-align: center; max-width: 700px;">
+                    Bread Co-op, Communet.xyz, and progressive blockchain tools that align with democratic socialist governance
+                </p>
+                <div class="qr-grid" style="margin-top: 30px;">
+                    <div class="qr-container">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://docs.bread.coop/" alt="QR">
+                        <span>Bread Co-op</span>
+                    </div>
+                    <div class="qr-container">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://communet.xyz" alt="QR">
+                        <span>Communet.xyz</span>
+                    </div>
+                    <div class="qr-container">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://theblockchainsocialist.com/" alt="QR">
+                        <span>Blockchain Socialist</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Bread Co-op Overview -->
+        <div class="slide">
+            <h2><span class="bread-logo">🍞</span>Bread Cooperative Overview</h2>
+            <table>
+                <tr><th>Attribute</th><th>Details</th></tr>
+                <tr><td>Name</td><td>Bread Cooperative (formerly Breadchain)</td></tr>
+                <tr><td>Type</td><td>Collective federation of decentralized cooperative projects</td></tr>
+                <tr><td>Mission</td><td>Advance progressive vision for blockchain technology</td></tr>
+                <tr><td>Origin</td><td>Crypto Leftists community (Discord/Reddit)</td></tr>
+                <tr><td>Core Innovation</td><td>"Solidarity Primitives" - tools forging solidarity between collectives</td></tr>
+            </table>
+            <div class="two-column" style="margin-top: 15px;">
+                <div class="highlight-box">
+                    <h3>$BREAD Token</h3>
+                    <ul>
+                        <li>Digital local currency</li>
+                        <li>~$1.00 USD (pegged)</li>
+                        <li>Yield-based governance</li>
+                        <li>30-day voting cycles</li>
+                    </ul>
+                </div>
+                <div class="highlight-box green">
+                    <h3>Gas Killer</h3>
+                    <p>Breakthrough approach making expensive Ethereum operations dramatically cheaper with <strong>one line of code</strong></p>
+                </div>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://docs.bread.coop/" alt="QR">
+                    <span>Bread Wiki</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://coinmarketcap.com/currencies/breadchain-cooperative/" alt="QR">
+                    <span>CoinMarketCap</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://breadchain.mirror.xyz/" alt="QR">
+                    <span>Bread Mirror</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Bread Member Projects -->
+        <div class="slide">
+            <h2>Bread Co-op Member Projects</h2>
+            <table>
+                <tr><th>Project</th><th>Description</th><th>Mamdani Alignment</th></tr>
+                <tr>
+                    <td><strong>LaborDAO</strong></td>
+                    <td>First decentralized community supporting workers to organize, strike, collectively bargain</td>
+                    <td><span class="tag high">$30 wage, worker rights</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Citizen Wallet</strong></td>
+                    <td>Open-source wallet for community currencies; "Wordpress of Community Tokens"</td>
+                    <td><span class="tag high">City grocery stores</span></td>
+                </tr>
+                <tr>
+                    <td><strong>PactDAO</strong></td>
+                    <td>NYC-based mutual aid DAO democratizing resource movement</td>
+                    <td><span class="tag nyc">Direct NYC application</span></td>
+                </tr>
+                <tr>
+                    <td><strong>ReFi DAO</strong></td>
+                    <td>Regenerative Finance network prioritizing ecological/social well-being</td>
+                    <td><span class="tag high">Green Schools Plan</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Crypto Commons Association</strong></td>
+                    <td>Non-profit producing research on decentralized tech and commons</td>
+                    <td><span class="tag medium">Public goods</span></td>
+                </tr>
+            </table>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mirror.xyz/0x41E84f0e4417eDf440DDc2558Df13877552Db39A/C7befGqsLiT9Z4VSLT-bqpacg1nxoqpnOq3Q7elXo9U" alt="QR">
+                    <span>LaborDAO</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://citizenwallet.xyz/" alt="QR">
+                    <span>Citizen Wallet</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cointelegraph.com/news/mutual-aid-daos-and-activism-the-agenda-podcast-chats-with-pactdao-co-founder-marisa-rando" alt="QR">
+                    <span>PactDAO</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.thenation.com/article/society/dao-crypto-union/" alt="QR">
+                    <span>The Nation: DAOs</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: PactDAO NYC -->
+        <div class="slide">
+            <h2>🗽 PactDAO: Already in NYC</h2>
+            <div class="two-column">
+                <div>
+                    <table>
+                        <tr><th>Attribute</th><th>Details</th></tr>
+                        <tr><td>Location</td><td><strong>New York City</strong></td></tr>
+                        <tr><td>Founded</td><td>2020 (pandemic response)</td></tr>
+                        <tr><td>Founder</td><td>Marisa Rando</td></tr>
+                        <tr><td>Legal Status</td><td>501c3 nonprofit with DAO-friendly bylaws</td></tr>
+                        <tr><td>Network</td><td>Part of Breadchain</td></tr>
+                    </table>
+                    <div class="highlight-box red" style="margin-top: 15px;">
+                        <p><strong>Key Innovation:</strong> Token governance based on <em>participation</em>, not just financial contribution. Organizers earn voting power.</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Why It Matters for Mamdani</h3>
+                    <ul>
+                        <li>Already operational in NYC</li>
+                        <li>Proven mutual aid distribution</li>
+                        <li>Democratic resource allocation</li>
+                        <li>Resistant to federal pressure</li>
+                        <li>Worker-members called "comrades"</li>
+                    </ul>
+                    <div class="stat-box" style="margin-top: 15px;">
+                        <div class="number">NYC</div>
+                        <p>Ready to Partner</p>
+                    </div>
+                </div>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://bounties.gitcoin.co/grants/4780/pactdao-mutual-aid-economy" alt="QR">
+                    <span>PactDAO Gitcoin</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.coindesk.com/business/2021/12/10/what-would-a-mutual-aid-dao-look-like/" alt="QR">
+                    <span>CoinDesk</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cryptogood.substack.com/p/pact-dao-building-hyper-local-city" alt="QR">
+                    <span>CryptoGood</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Communet.xyz -->
+        <div class="slide">
+            <h2>Communet.xyz: 19 Crypto Left Projects</h2>
+            <p style="margin-bottom: 15px;">"Crypto left utility/art/propaganda/mechanism/scifi platform"</p>
+            <div class="two-column">
+                <div>
+                    <table>
+                        <tr><th>Project</th><th>Mamdani Alignment</th></tr>
+                        <tr><td><strong>Decentral Park</strong></td><td><span class="tag nyc">NYC post-capitalist organizing</span></td></tr>
+                        <tr><td><strong>ZKBurn</strong></td><td><span class="tag high">Sex worker/LGBTQ+ safety</span></td></tr>
+                        <tr><td><strong>Truth Commons</strong></td><td><span class="tag high">Whistleblowing, accountability</span></td></tr>
+                        <tr><td><strong>Crypto Rice Kibbutz</strong></td><td><span class="tag high">UBI, local currency</span></td></tr>
+                        <tr><td><strong>Wash Commons</strong></td><td><span class="tag high">Cooperative business model</span></td></tr>
+                    </table>
+                </div>
+                <div>
+                    <table>
+                        <tr><th>Project</th><th>Mamdani Alignment</th></tr>
+                        <tr><td><strong>Grow Kesennuma</strong></td><td><span class="tag medium">Co-governance model</span></td></tr>
+                        <tr><td><strong>Commons Token</strong></td><td><span class="tag medium">Community ownership</span></td></tr>
+                        <tr><td><strong>DeSci Commons</strong></td><td><span class="tag medium">Public health research</span></td></tr>
+                        <tr><td><strong>Peer2Praxis</strong></td><td><span class="tag low">Activist task bounties</span></td></tr>
+                        <tr><td><strong>Co-op Crypto Campus</strong></td><td><span class="tag low">Education</span></td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://communet.xyz" alt="QR">
+                    <span>Communet.xyz</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Decentral Park -->
+        <div class="slide">
+            <h2>🏙️ Decentral Park: NYC Specific</h2>
+            <div class="highlight-box red">
+                <p style="font-size: 1.2em;"><strong>The most directly applicable project to Mamdani's administration</strong></p>
+            </div>
+            <table>
+                <tr><th>Attribute</th><th>Details</th></tr>
+                <tr><td>Location</td><td><strong>New York City</strong></td></tr>
+                <tr><td>Focus</td><td>Post-capitalist community organizing through direct action</td></tr>
+                <tr><td>Technology</td><td>Blockchain for transparent cooperative coordination</td></tr>
+                <tr><td>Alignment</td><td>Directly supports democratic socialist agenda</td></tr>
+            </table>
+            <div class="two-column" style="margin-top: 15px;">
+                <div class="project-card">
+                    <h4>What It Does</h4>
+                    <p>NYC community organizing exploring cooperative economics through blockchain-enabled coordination and direct action.</p>
+                </div>
+                <div class="project-card">
+                    <h4>Why Mamdani Should Care</h4>
+                    <p>Ready-made infrastructure for his co-governance model, community organizing, and democratic participation goals.</p>
+                </div>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://communet.xyz" alt="QR">
+                    <span>Decentral Park</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: ZKBurn -->
+        <div class="slide">
+            <h2>🔐 ZKBurn: Privacy for Vulnerable Populations</h2>
+            <table>
+                <tr><th>Feature</th><th>Details</th></tr>
+                <tr><td>Purpose</td><td>Anonymous safety verification for sex workers</td></tr>
+                <tr><td>Technology</td><td>Zero-knowledge proofs (ZK-Passport)</td></tr>
+                <tr><td>How It Works</td><td>Creates verifiable safety records without identity exposure</td></tr>
+            </table>
+            <div class="highlight-box green">
+                <h3>Adaptable for Mamdani's Policies</h3>
+                <ul>
+                    <li><strong>LGBTQ+ Healthcare:</strong> Prove NYC residency for gender-affirming care without exposing identity to hostile states</li>
+                    <li><strong>Abortion Access:</strong> Anonymous appointment booking; no records for subpoena</li>
+                    <li><strong>Immigrant Services:</strong> Prove eligibility without exposing status to ICE</li>
+                </ul>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://communet.xyz" alt="QR">
+                    <span>ZKBurn</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.advocate.com/politics/zohran-mamdani-lgbtq-campaign-promises" alt="QR">
+                    <span>LGBTQ+ Policy</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Citizen Wallet -->
+        <div class="slide">
+            <h2>💳 Citizen Wallet: Community Currency Infrastructure</h2>
+            <table>
+                <tr><th>Feature</th><th>Details</th></tr>
+                <tr><td>Purpose</td><td>"Wordpress of Community Tokens" - easy community currency creation</td></tr>
+                <tr><td>No Setup</td><td>No sign up, no gas fees, NFC payments</td></tr>
+                <tr><td>Chains</td><td>Polygon, Optimism, Celo, Base</td></tr>
+                <tr><td>Includes</td><td>Built-in token factory, Point of Sale app, admin dashboard</td></tr>
+            </table>
+            <div class="two-column" style="margin-top: 15px;">
+                <div>
+                    <h3>Real-World Deployments</h3>
+                    <ul>
+                        <li><strong>Oak.community</strong> - Local crypto currency</li>
+                        <li><strong>SFLuv.org</strong> - Stablecoin for local shops</li>
+                        <li><strong>Wolugo (Brussels)</strong> - Civic reward currency</li>
+                        <li><strong>DAO.brussels</strong> - Decentralized bar tokens</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="highlight-box">
+                        <h3>City Grocery Store Application</h3>
+                        <p>Mamdani's city-owned grocery stores could use Citizen Wallet to:</p>
+                        <ul>
+                            <li>Issue loyalty tokens</li>
+                            <li>Provide transparent pricing</li>
+                            <li>Reward low-income shoppers</li>
+                            <li>Track local sourcing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://citizenwallet.xyz/" alt="QR">
+                    <span>Citizen Wallet</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://docs.citizenwallet.xyz/" alt="QR">
+                    <span>Docs</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/citizenwallet/app" alt="QR">
+                    <span>GitHub</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: LaborDAO -->
+        <div class="slide">
+            <h2>✊ LaborDAO: Worker Organizing on Chain</h2>
+            <table>
+                <tr><th>Feature</th><th>Details</th></tr>
+                <tr><td>Purpose</td><td>First decentralized community supporting workers to organize, strike, collectively bargain</td></tr>
+                <tr><td>Members</td><td>Unions, worker orgs, students, teachers, organizers</td></tr>
+                <tr><td>Funding</td><td>Community can fund workers fighting for power and fairness</td></tr>
+            </table>
+            <div class="highlight-box">
+                <h3>Mamdani's $30 Minimum Wage</h3>
+                <p>LaborDAO could help enforce and verify:</p>
+                <ul>
+                    <li>Smart contract payroll verification</li>
+                    <li>Immutable records of wage theft</li>
+                    <li>Transparent strike funds</li>
+                    <li>Worker organizing coordination</li>
+                </ul>
+            </div>
+            <div class="highlight-box red">
+                <p><em>"DAOs aren't a substitute for free child care, universal health care, or student loan forgiveness... But they can be a powerful tool to fund creative projects together: no banks, no overhead."</em></p>
+                <p style="color: #a89070; font-size: 0.9em;">— The Nation</p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mirror.xyz/0x41E84f0e4417eDf440DDc2558Df13877552Db39A/C7befGqsLiT9Z4VSLT-bqpacg1nxoqpnOq3Q7elXo9U" alt="QR">
+                    <span>LaborDAO</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.thenation.com/article/society/dao-crypto-union/" alt="QR">
+                    <span>The Nation</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: High-Priority Crossref -->
+        <div class="slide">
+            <h2>High-Priority Policy Cross-Reference</h2>
+            <table>
+                <tr><th>Mamdani Policy</th><th>Crypto Left Solution</th><th>Ready?</th></tr>
+                <tr><td>City grocery stores</td><td>Citizen Wallet community currency</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>$30 minimum wage</td><td>LaborDAO + smart contract payroll</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>Worker organizing</td><td>LaborDAO (already operational)</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>NYC mutual aid</td><td>PactDAO (already in NYC!)</td><td><span class="tag nyc">Ready Now</span></td></tr>
+                <tr><td>LGBTQ+ privacy</td><td>ZKBurn model adaptation</td><td><span class="tag medium">Medium</span></td></tr>
+                <tr><td>School co-governance</td><td>Grow Kesennuma model</td><td><span class="tag medium">Medium</span></td></tr>
+                <tr><td>Deed theft prevention</td><td>Bergen County blockchain model</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>Generic drug verification</td><td>PharmaChain</td><td><span class="tag high">High</span></td></tr>
+            </table>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.zohranfornyc.com/platform" alt="QR">
+                    <span>Platform</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://docs.bread.coop/" alt="QR">
+                    <span>Bread Co-op</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Implementation Roadmap -->
+        <div class="slide">
+            <h2>Implementation Roadmap</h2>
+            <h3>Phase 1: Immediate (Day 1-100)</h3>
+            <table>
+                <tr><th>Initiative</th><th>Partner</th><th>Complexity</th></tr>
+                <tr><td>Partner with PactDAO for mutual aid</td><td>PactDAO (NYC-based)</td><td><span class="tag high">Low</span></td></tr>
+                <tr><td>Pilot Citizen Wallet at city grocery</td><td>Bread: Citizen Wallet</td><td><span class="tag high">Low</span></td></tr>
+                <tr><td>Connect with LaborDAO for wage enforcement</td><td>Bread: LaborDAO</td><td><span class="tag high">Low</span></td></tr>
+                <tr><td>CUNY blockchain credential pilot</td><td>Blockcerts (open source)</td><td><span class="tag high">Low</span></td></tr>
+            </table>
+            <h3 style="margin-top: 20px;">Phase 2: First Year</h3>
+            <table>
+                <tr><th>Initiative</th><th>Partner</th><th>Complexity</th></tr>
+                <tr><td>Blockchain deed registry pilot</td><td>Bergen County model</td><td><span class="tag medium">Medium</span></td></tr>
+                <tr><td>Generic drug supply chain</td><td>PharmaChain</td><td><span class="tag medium">Medium</span></td></tr>
+                <tr><td>Self-sovereign ID for immigrants</td><td>ID2020/custom</td><td><span class="tag medium">Medium</span></td></tr>
+            </table>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.blockcerts.org/" alt="QR">
+                    <span>Blockcerts</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://news.cornell.edu/stories/2025/08/blockchain-platform-securely-digitizes-public-records" alt="QR">
+                    <span>Bergen Model</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Philosophical Alignment -->
+        <div class="slide">
+            <h2>The Philosophical Alignment</h2>
+            <table>
+                <tr><th>Crypto Left Principle</th><th>Mamdani Expression</th><th>Technology</th></tr>
+                <tr><td>Solidarity economics</td><td>"No billionaires"</td><td>$BREAD redistributes yield</td></tr>
+                <tr><td>Worker ownership</td><td>$30 wage, worker protections</td><td>LaborDAO</td></tr>
+                <tr><td>Community currencies</td><td>City-owned grocery stores</td><td>Citizen Wallet</td></tr>
+                <tr><td>Mutual aid</td><td>Community Safety Department</td><td>PactDAO</td></tr>
+                <tr><td>Privacy from state violence</td><td>Sanctuary city, LGBTQ+ protection</td><td>Zero-knowledge proofs</td></tr>
+                <tr><td>Transparency in governance</td><td>End mayoral control of schools</td><td>DAO-style voting</td></tr>
+                <tr><td>Commons-based economics</td><td>Public hospitals, CUNY</td><td>Commons Token</td></tr>
+            </table>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://theblockchainsocialist.com/crypto-leftist-heuristics-what-is-a-dao/" alt="QR">
+                    <span>Blockchain Socialist</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.nbcnews.com/politics/elections/zohran-mamdani-says-dont-think-billionaires-rcna215821" alt="QR">
+                    <span>NBC: Billionaires</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Key Partnerships -->
+        <div class="slide">
+            <h2>Key Partnerships to Pursue</h2>
+            <table>
+                <tr><th>Organization</th><th>What They Offer</th><th>Priority</th></tr>
+                <tr><td><strong>Bread Cooperative</strong></td><td>Full suite of solidarity primitives, $BREAD, technical expertise</td><td><span class="tag high">Critical</span></td></tr>
+                <tr><td><strong>PactDAO</strong></td><td>NYC mutual aid DAO already operational</td><td><span class="tag nyc">Immediate</span></td></tr>
+                <tr><td><strong>Citizen Wallet</strong></td><td>Open-source community currency infrastructure</td><td><span class="tag high">High</span></td></tr>
+                <tr><td><strong>LaborDAO</strong></td><td>Worker organizing and collective bargaining</td><td><span class="tag high">High</span></td></tr>
+                <tr><td><strong>The Blockchain Socialist</strong></td><td>Thought leadership, progressive framing</td><td><span class="tag medium">Medium</span></td></tr>
+                <tr><td><strong>ReFi DAO</strong></td><td>Regenerative finance, climate focus</td><td><span class="tag medium">Medium</span></td></tr>
+                <tr><td><strong>Decentral Park</strong></td><td>NYC-specific post-capitalist organizing</td><td><span class="tag nyc">Immediate</span></td></tr>
+            </table>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://docs.bread.coop/" alt="QR">
+                    <span>Bread Co-op</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://bounties.gitcoin.co/grants/4780/pactdao-mutual-aid-economy" alt="QR">
+                    <span>PactDAO</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://communet.xyz" alt="QR">
+                    <span>Communet</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Blockchain Socialist Quote -->
+        <div class="slide">
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80%;">
+                <div style="font-size: 3em; margin-bottom: 30px;">📖</div>
+                <div class="highlight-box" style="max-width: 800px; text-align: center;">
+                    <p style="font-size: 1.3em; font-style: italic; margin-bottom: 20px;">
+                        "The majority of venture capital backed web3 startups claim to be 'decentralized' when the only thing decentralized about them is the fact they use a blockchain's technically decentralized infrastructure. They are, however, not owned in a decentralized way... From a leftist perspective, markets under capitalism are essentially 'centralization machines for capital.'"
+                    </p>
+                    <p style="color: #d4a574;">— The Blockchain Socialist</p>
+                </div>
+                <p style="margin-top: 30px; text-align: center; max-width: 600px; color: #a89070;">
+                    The crypto industry Mamdani criticizes is a <em>corruption</em> of crypto's founding principles—principles that actually align with his democratic socialist platform.
+                </p>
+                <div class="qr-grid" style="margin-top: 30px;">
+                    <div class="qr-container">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://theblockchainsocialist.com/crypto-leftist-heuristics-what-is-a-dao/" alt="QR">
+                        <span>Blockchain Socialist</span>
+                    </div>
+                    <div class="qr-container">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.coinage.media/s4/billionaires-couldnt-stop-mamdani-heres-why-that-could-be-good-for-crypto" alt="QR">
+                        <span>Coinage Media</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: All Sources -->
+        <div class="slide">
+            <h2>Key Sources & References</h2>
+            <div class="qr-grid" style="justify-content: center;">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://docs.bread.coop/" alt="QR">
+                    <span>Bread Wiki</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://communet.xyz" alt="QR">
+                    <span>Communet</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://citizenwallet.xyz/" alt="QR">
+                    <span>Citizen Wallet</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cointelegraph.com/news/mutual-aid-daos-and-activism-the-agenda-podcast-chats-with-pactdao-co-founder-marisa-rando" alt="QR">
+                    <span>PactDAO</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mirror.xyz/0x41E84f0e4417eDf440DDc2558Df13877552Db39A/C7befGqsLiT9Z4VSLT-bqpacg1nxoqpnOq3Q7elXo9U" alt="QR">
+                    <span>LaborDAO</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://theblockchainsocialist.com/" alt="QR">
+                    <span>Blockchain Socialist</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.thenation.com/article/society/dao-crypto-union/" alt="QR">
+                    <span>The Nation</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.zohranfornyc.com/platform" alt="QR">
+                    <span>Mamdani Platform</span>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 30px; color: #a89070;">Research compiled December 2025</p>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+
+            document.getElementById('progressBar').style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+            document.getElementById('slideCounter').textContent = (currentSlide + 1) + ' / ' + totalSlides;
+
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
