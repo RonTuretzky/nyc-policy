@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamdani Policies: Crypto & Blockchain Opportunities</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+            color: #c9d1d9;
+            min-height: 100vh;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 40px 60px;
+            overflow-y: auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #58a6ff, #a371f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #58a6ff;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            margin: 20px 0 10px;
+            color: #a371f7;
+        }
+
+        p, li {
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(88, 166, 255, 0.2);
+        }
+
+        th {
+            background: rgba(88, 166, 255, 0.15);
+            color: #58a6ff;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        a {
+            color: #58a6ff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #a371f7;
+            text-decoration: underline;
+        }
+
+        .qr-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 5px;
+            padding: 8px;
+            background: rgba(88, 166, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+        }
+
+        .qr-container img {
+            width: 70px;
+            height: 70px;
+            border-radius: 4px;
+        }
+
+        .qr-container span {
+            font-size: 0.65em;
+            margin-top: 5px;
+            color: #8b949e;
+            max-width: 90px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .qr-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #238636, #2ea043);
+            border: none;
+            color: white;
+            font-size: 1em;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(35, 134, 54, 0.6);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #58a6ff, #a371f7);
+            transition: width 0.3s;
+            z-index: 1000;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            font-size: 1.2em;
+            color: rgba(201, 209, 217, 0.7);
+        }
+
+        .highlight-box {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid #58a6ff;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box.green {
+            background: rgba(35, 134, 54, 0.15);
+            border-left-color: #238636;
+        }
+
+        .highlight-box.purple {
+            background: rgba(163, 113, 247, 0.15);
+            border-left-color: #a371f7;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+        }
+
+        .stat-box .number {
+            font-size: 2.2em;
+            color: #58a6ff;
+            font-weight: bold;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin: 2px;
+        }
+
+        .tag.high { background: rgba(35, 134, 54, 0.3); color: #3fb950; }
+        .tag.medium { background: rgba(187, 128, 9, 0.3); color: #d29922; }
+        .tag.low { background: rgba(88, 166, 255, 0.3); color: #58a6ff; }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li::before {
+            content: "→ ";
+            color: #58a6ff;
+        }
+
+        .icon-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .icon-box .icon {
+            font-size: 2em;
+        }
+
+        .comparison-table td:first-child {
+            color: #f85149;
+            font-weight: 500;
+        }
+
+        .comparison-table td:nth-child(2) {
+            color: #3fb950;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-counter" id="slideCounter"></div>
+
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80%;">
+                <h1 style="font-size: 3em; text-align: center;">Mamdani Policies</h1>
+                <h2 style="font-size: 2.2em; text-align: center; color: #a371f7;">Cryptocurrency & Blockchain Opportunities</h2>
+                <p style="font-size: 1.2em; margin-top: 30px; color: #8b949e; text-align: center; max-width: 700px;">
+                    How crypto technology could advance Mamdani's democratic socialist agenda—despite his skepticism of the crypto industry
+                </p>
+                <div class="qr-grid" style="margin-top: 40px;">
+                    <div class="qr-container">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cryptoslate.com/zohran-mamdanis-victory-tests-nycs-crypto-identity/" alt="QR">
+                        <span>CryptoSlate</span>
+                    </div>
+                    <div class="qr-container">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cointelegraph.com/news/what-mamdani-s-mayoral-win-means-for-crypto-in-new-york" alt="QR">
+                        <span>Cointelegraph</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Irony -->
+        <div class="slide">
+            <h2>The Irony: Values Alignment</h2>
+            <p style="margin-bottom: 20px;">Mamdani's democratic socialist values align closely with crypto's <em>original</em> cypherpunk principles.</p>
+            <table class="comparison-table">
+                <tr><th>Mamdani Value</th><th>Original Crypto Promise</th></tr>
+                <tr><td>Distrust of concentrated wealth</td><td>Decentralized, no central bank control</td></tr>
+                <tr><td>Protect marginalized communities</td><td>Financial access without ID requirements</td></tr>
+                <tr><td>Transparency in government</td><td>Public, auditable ledgers</td></tr>
+                <tr><td>Anti-corruption</td><td>Immutable records, smart contracts</td></tr>
+                <tr><td>Privacy from hostile state actors</td><td>Cryptographic privacy tools</td></tr>
+                <tr><td>Community ownership</td><td>DAOs, cooperative governance</td></tr>
+                <tr><td>Skepticism of Wall Street</td><td>Disintermediation of traditional finance</td></tr>
+            </table>
+            <div class="highlight-box purple">
+                <p>The crypto industry Mamdani criticizes (FTX, speculation, billionaire enrichment) is a <strong>corruption</strong> of crypto's founding principles—principles that actually align with his platform.</p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.coinage.media/s4/billionaires-couldnt-stop-mamdani-heres-why-that-could-be-good-for-crypto" alt="QR">
+                    <span>Coinage Media</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.nbcnews.com/politics/elections/zohran-mamdani-says-dont-think-billionaires-rcna215821" alt="QR">
+                    <span>NBC News</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Top 10 Opportunities -->
+        <div class="slide">
+            <h2>Top 10 Highest-Impact Opportunities</h2>
+            <table>
+                <tr><th>#</th><th>Application</th><th>Alignment</th><th>Feasibility</th></tr>
+                <tr><td>1</td><td>Blockchain deed registry</td><td>Protects vulnerable homeowners</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>2</td><td>Privacy-preserving immigrant ID</td><td>Core sanctuary city mission</td><td><span class="tag medium">Medium</span></td></tr>
+                <tr><td>3</td><td>Generic drug supply chain</td><td>City-produced medications trusted</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>4</td><td>Transparent millionaire tax</td><td>Proves wealthy pay share</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>5</td><td>Abortion/LGBTQ+ patient privacy</td><td>Protects from hostile prosecution</td><td><span class="tag medium">Medium</span></td></tr>
+                <tr><td>6</td><td>Body camera footage integrity</td><td>Police accountability</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>7</td><td>Rent-stabilized housing registry</td><td>Prevents illegal deregulation</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>8</td><td>Green schools energy verification</td><td>Proves climate investments</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>9</td><td>Unbanked immigrant financial access</td><td>Financial inclusion for 3M</td><td><span class="tag high">High</span></td></tr>
+                <tr><td>10</td><td>CUNY credential ownership</td><td>Students own diplomas forever</td><td><span class="tag high">Very High</span></td></tr>
+            </table>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.zohranfornyc.com/platform" alt="QR">
+                    <span>Platform</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.newsweek.com/nyc-mayoral-candidate-zohran-mamdani-10982931" alt="QR">
+                    <span>Newsweek</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Housing Applications -->
+        <div class="slide">
+            <h2>Housing & Affordability</h2>
+            <table>
+                <tr><th>Policy Goal</th><th>Blockchain Solution</th><th>Why It Works</th></tr>
+                <tr>
+                    <td>End deed theft</td>
+                    <td>Blockchain property records</td>
+                    <td>Immutable ownership prevents fraudulent transfers targeting elderly/immigrants</td>
+                </tr>
+                <tr>
+                    <td>Rent freeze for 2M+</td>
+                    <td>On-chain rent registry</td>
+                    <td>Tamper-proof record prevents illegal deregulation; real-time monitoring</td>
+                </tr>
+                <tr>
+                    <td>Build 200K homes</td>
+                    <td>Tokenized municipal bonds</td>
+                    <td>Small investors from his base can invest in affordable housing</td>
+                </tr>
+                <tr>
+                    <td>Anti-corruption</td>
+                    <td>Smart contract procurement</td>
+                    <td>Transparent city contracting; reduces kickbacks</td>
+                </tr>
+            </table>
+            <div class="highlight-box green">
+                <p><strong>Bergen County, NJ:</strong> Largest blockchain deed tokenization project in US history. Cut processing time by 90%, dramatically reduced fraud risk.</p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://news.cornell.edu/stories/2025/08/blockchain-platform-securely-digitizes-public-records" alt="QR">
+                    <span>Cornell Chronicle</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.newamerica.org/future-land-housing/blog/can-blockchain-reduce-property-fraud/" alt="QR">
+                    <span>New America</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://prospect.org/2025/11/11/six-ways-zohran-mamdani-can-make-new-york-city-affordable-again/" alt="QR">
+                    <span>American Prospect</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Healthcare Applications -->
+        <div class="slide">
+            <h2>Healthcare Applications</h2>
+            <table>
+                <tr><th>Policy Goal</th><th>Blockchain Solution</th><th>Why It Works</th></tr>
+                <tr>
+                    <td>City generic drug production</td>
+                    <td>Supply chain tracking</td>
+                    <td>Proves authenticity; prevents counterfeits; builds public trust</td>
+                </tr>
+                <tr>
+                    <td>$350M mental health</td>
+                    <td>Privacy-preserving records (ZK)</td>
+                    <td>Patients control sensitive records; prove history without full disclosure</td>
+                </tr>
+                <tr>
+                    <td>$65M gender-affirming care</td>
+                    <td>Privacy credentials</td>
+                    <td>Protects patient identity from out-of-state prosecution</td>
+                </tr>
+                <tr>
+                    <td>Abortion access ($2M hub)</td>
+                    <td>Anonymous donations/payments</td>
+                    <td>Donors/patients protected from doxxing; no payment trails</td>
+                </tr>
+            </table>
+            <div class="two-column" style="margin-top: 20px;">
+                <div class="highlight-box">
+                    <h3>PharmaChain</h3>
+                    <p>Decentralized framework for drug traceability. Partners include Bayer, McKesson, Pfizer.</p>
+                </div>
+                <div class="highlight-box purple">
+                    <h3>Zero-Knowledge Proofs</h3>
+                    <p>Prove eligibility ("over 18", "NY resident") without revealing underlying data.</p>
+                </div>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pmc.ncbi.nlm.nih.gov/articles/PMC10362317/" alt="QR">
+                    <span>PharmaChain (PMC)</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://sedicii.com/news/zkp-transform-healthcare-data-privacy/" alt="QR">
+                    <span>Sedicii ZKP</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.advocate.com/politics/zohran-mamdani-lgbtq-campaign-promises" alt="QR">
+                    <span>The Advocate</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Immigration & Sanctuary -->
+        <div class="slide">
+            <h2>Immigration & Sanctuary City</h2>
+            <table>
+                <tr><th>Policy Goal</th><th>Blockchain Solution</th><th>Why It Works</th></tr>
+                <tr>
+                    <td>Shield data from ICE</td>
+                    <td>Decentralized Identity (DID)</td>
+                    <td>Prove eligibility without exposing location/identity to federal databases</td>
+                </tr>
+                <tr>
+                    <td>Legal defense funding</td>
+                    <td>DAO-based defense fund</td>
+                    <td>Transparent crowdfunding; resistant to federal account freezes</td>
+                </tr>
+                <tr>
+                    <td>Know Your Rights</td>
+                    <td>IPFS/Arweave hosting</td>
+                    <td>Censorship-resistant; cannot be taken down by federal pressure</td>
+                </tr>
+                <tr>
+                    <td>Municipal ID (IDNYC)</td>
+                    <td>Blockchain-verified credentials</td>
+                    <td>Tamper-proof IDs work even under federal pressure</td>
+                </tr>
+            </table>
+            <div class="highlight-box green">
+                <p><strong>Real-World Example:</strong> ID2020 Alliance successfully deployed blockchain identity for refugees in Thailand's Mae La camp via iris scans linked to blockchain-stored codes.</p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.gmfus.org/news/self-sovereign-identities-people-move-new-approach-public-sector-authentication" alt="QR">
+                    <span>GMF SSI</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.unhcr.org/blogs/wp-content/uploads/sites/48/2018/04/fs.pdf" alt="QR">
+                    <span>UNHCR</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.jeelani-law.com/zohran-mamdani-stance-about-ice-and-immigration/" alt="QR">
+                    <span>ICE Stance</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Police & Public Safety -->
+        <div class="slide">
+            <h2>Police & Public Safety</h2>
+            <table>
+                <tr><th>Policy Goal</th><th>Blockchain Solution</th><th>Why It Works</th></tr>
+                <tr>
+                    <td>Police accountability</td>
+                    <td>Blockchain video hashing</td>
+                    <td>Every recording hashed at upload; proves footage wasn't edited/deleted</td>
+                </tr>
+                <tr>
+                    <td>$350M non-police responses</td>
+                    <td>Transparent fund allocation</td>
+                    <td>Public proof mental health calls get healthcare response, not police</td>
+                </tr>
+                <tr>
+                    <td>Complaint tracking</td>
+                    <td>Immutable records</td>
+                    <td>Civilian complaints cannot be "lost"; pattern detection possible</td>
+                </tr>
+                <tr>
+                    <td>Use of force reporting</td>
+                    <td>On-chain incident reports</td>
+                    <td>Tamper-proof records enable independent analysis</td>
+                </tr>
+            </table>
+            <div class="highlight-box">
+                <p><strong>Axon (major police device company)</strong> is actively exploring blockchain to verify body-cam footage authenticity and fight deepfakes.</p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.ledgerinsights.com/axon-explores-blockchain-for-police-body-cam-footage-integrity/" alt="QR">
+                    <span>Ledger Insights</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://epublications.marquette.edu/comp_fac/53/" alt="QR">
+                    <span>Marquette Research</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.democracycollaborative.org/blogs/mamdani-five-key-policies" alt="QR">
+                    <span>Democracy Collab</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Climate & Environment -->
+        <div class="slide">
+            <h2>Climate & Environment</h2>
+            <table>
+                <tr><th>Policy Goal</th><th>Blockchain Solution</th><th>Why It Works</th></tr>
+                <tr>
+                    <td>Green Schools (500)</td>
+                    <td>Blockchain energy certificates</td>
+                    <td>Proves solar installation happened; tracks carbon offset; prevents greenwashing</td>
+                </tr>
+                <tr>
+                    <td>Local Law 97</td>
+                    <td>On-chain emissions reporting</td>
+                    <td>Automated, tamper-proof data; transparent fines</td>
+                </tr>
+                <tr>
+                    <td>15GW public renewable</td>
+                    <td>Tokenized energy credits</td>
+                    <td>Citizens purchase/trade local renewable energy</td>
+                </tr>
+                <tr>
+                    <td>Carbon offsets</td>
+                    <td>Verified credits on-chain</td>
+                    <td>Prevents double-counting and fraudulent offsets</td>
+                </tr>
+            </table>
+            <div class="stat-box" style="margin-top: 15px;">
+                <div class="number">$4.98T</div>
+                <p>Projected Carbon Credit Market by 2035 (from $1.14T in 2024)</p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.thenation.com/article/environment/zohran-mamdani-green-schools-plan-climate/" alt="QR">
+                    <span>The Nation</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://sustainabilitymag.com/articles/renewable-energy-certificates-the-blockchain-and-the-future" alt="QR">
+                    <span>Sustainability Mag</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://carboncredits.com/are-nature-based-solutions-and-blockchain-the-future-of-carbon-credits/" alt="QR">
+                    <span>Carbon Credits</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Education -->
+        <div class="slide">
+            <h2>Education Applications</h2>
+            <table>
+                <tr><th>Policy Goal</th><th>Blockchain Solution</th><th>Why It Works</th></tr>
+                <tr>
+                    <td>Strengthen CUNY</td>
+                    <td>Blockchain diplomas</td>
+                    <td>Graduates own credentials forever; instant verification; cannot be lost</td>
+                </tr>
+                <tr>
+                    <td>$12M teacher recruitment</td>
+                    <td>Public spending tracking</td>
+                    <td>Proves funds go to salaries, not administrative bloat</td>
+                </tr>
+                <tr>
+                    <td>End mayoral control</td>
+                    <td>DAO-style budget voting</td>
+                    <td>Parents, teachers, students vote transparently on priorities</td>
+                </tr>
+                <tr>
+                    <td>Homeless student support</td>
+                    <td>Privacy-preserving case management</td>
+                    <td>Track support without exposing housing status</td>
+                </tr>
+            </table>
+            <div class="two-column" style="margin-top: 20px;">
+                <div class="highlight-box green">
+                    <h3>Already Deployed</h3>
+                    <ul>
+                        <li>MIT Media Lab</li>
+                        <li>University of Melbourne</li>
+                        <li>University of Lille (80K+ certs)</li>
+                    </ul>
+                </div>
+                <div class="stat-box">
+                    <div class="number">30%</div>
+                    <p>Senior executives present false qualifications (UNESCO)</p>
+                </div>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.blockcerts.org/" alt="QR">
+                    <span>Blockcerts</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.bcdiploma.com/en" alt="QR">
+                    <span>BCdiploma</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.nature.com/articles/s41598-025-93913-6" alt="QR">
+                    <span>Nature Study</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Economic Justice -->
+        <div class="slide">
+            <h2>Economic Justice & Financial Inclusion</h2>
+            <table>
+                <tr><th>Policy Goal</th><th>Blockchain Solution</th><th>Why It Works</th></tr>
+                <tr>
+                    <td>Protect 3M immigrants</td>
+                    <td>Stablecoins / Digital wallets</td>
+                    <td>Financial services without immigration status checks</td>
+                </tr>
+                <tr>
+                    <td>2% millionaire tax</td>
+                    <td>On-chain tax records</td>
+                    <td>Public verification wealthy actually pay; reduces avoidance</td>
+                </tr>
+                <tr>
+                    <td>$30 minimum wage</td>
+                    <td>Smart contract payroll</td>
+                    <td>Automatic verification; workers prove wage theft with immutable records</td>
+                </tr>
+                <tr>
+                    <td>City grocery stores</td>
+                    <td>Blockchain inventory + loyalty tokens</td>
+                    <td>Transparent pricing; loyalty rewards for low-income shoppers</td>
+                </tr>
+            </table>
+            <div class="highlight-box">
+                <p><strong>GoodDollar:</strong> One of largest UBI communities globally. 300,000+ users on Celo receiving daily crypto UBI. 24M+ transactions in 16 months.</p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.gooddollar.org/" alt="QR">
+                    <span>GoodDollar</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://citizenwallet.xyz/" alt="QR">
+                    <span>Citizen Wallet</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://fortune.com/2025/10/21/zohran-mamdani-millionaire-tax-massachusetts-5-7-billion/" alt="QR">
+                    <span>Fortune Tax</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: LGBTQ+ & Reproductive -->
+        <div class="slide">
+            <h2>LGBTQ+ & Reproductive Rights</h2>
+            <table>
+                <tr><th>Policy Goal</th><th>Blockchain Solution</th><th>Why It Works</th></tr>
+                <tr>
+                    <td>Gender recognition privacy</td>
+                    <td>Self-sovereign identity</td>
+                    <td>Individuals control when/how to disclose; not dependent on government DBs</td>
+                </tr>
+                <tr>
+                    <td>LGBTQ+ sanctuary city</td>
+                    <td>Privacy-preserving residency proof</td>
+                    <td>Prove NYC residency without creating trail for hostile prosecutors</td>
+                </tr>
+                <tr>
+                    <td>Abortion funding ($2M)</td>
+                    <td>Privacy-preserving donations</td>
+                    <td>Donors protected from harassment; no public trail</td>
+                </tr>
+                <tr>
+                    <td>Out-of-state patient protection</td>
+                    <td>Anonymous appointment booking</td>
+                    <td>No records that could be subpoenaed by hostile states</td>
+                </tr>
+            </table>
+            <div class="highlight-box purple">
+                <p><strong>ZKBurn (from Communet.xyz):</strong> Anonymous safety verification for sex workers using zero-knowledge proofs. Model adaptable for LGBTQ+ and reproductive healthcare.</p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.out.com/politics/zohran-mamdani-lgbtq-rights-record" alt="QR">
+                    <span>Out Magazine</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://jimowles.org/news/candidate-answers-to-joldc-zohran-kwame-mamdani-for-nyc-mayor-2025" alt="QR">
+                    <span>Jim Owles Club</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://communet.xyz" alt="QR">
+                    <span>Communet ZKBurn</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Recommended Framing -->
+        <div class="slide">
+            <h2>Recommended Framing</h2>
+            <p style="margin-bottom: 20px;">For Mamdani's base, avoid "crypto" branding. Focus on outcomes:</p>
+            <table>
+                <tr><th style="color: #f85149;">Avoid</th><th style="color: #3fb950;">Use Instead</th><th>Rationale</th></tr>
+                <tr><td>Crypto</td><td>Digital public infrastructure</td><td>Avoids FTX/speculation connotations</td></tr>
+                <tr><td>Blockchain</td><td>Tamper-proof public records</td><td>Emphasizes transparency & accountability</td></tr>
+                <tr><td>NFTs</td><td>Digital credentials</td><td>Focuses on practical use case</td></tr>
+                <tr><td>Tokens</td><td>Community investment shares</td><td>Emphasizes democratization of finance</td></tr>
+                <tr><td>DeFi</td><td>Financial inclusion technology</td><td>Focuses on serving unbanked</td></tr>
+                <tr><td>Web3</td><td>Privacy-preserving civic tech</td><td>Emphasizes protection from hostile actors</td></tr>
+            </table>
+            <div class="highlight-box">
+                <p>Key message: <em>"These are tools for transparency, accountability, and protecting vulnerable New Yorkers—not speculation."</em></p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://beincrypto.com/zohran-mamdani-crypto-new-york-mayor-election/" alt="QR">
+                    <span>BeInCrypto</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Implementation Considerations -->
+        <div class="slide">
+            <h2>Implementation Considerations</h2>
+            <table>
+                <tr><th>Factor</th><th>Consideration</th></tr>
+                <tr><td>Mayoral Authority</td><td>Deeds, city contracts, municipal IDs are within city control</td></tr>
+                <tr><td>State Coordination</td><td>Healthcare, education credentials require Albany cooperation</td></tr>
+                <tr><td>Federal Resistance</td><td>Immigrant protection tools may face federal legal challenges</td></tr>
+                <tr><td>Technical Readiness</td><td>Privacy-preserving tech (zk-proofs) still maturing</td></tr>
+                <tr><td>Public Trust</td><td>Base may be skeptical; focus on outcomes not technology</td></tr>
+                <tr><td>Energy Concerns</td><td>Must use proof-of-stake (aligns with PoW moratorium support)</td></tr>
+            </table>
+            <div class="highlight-box green">
+                <p><strong>Key Insight:</strong> Many high-impact applications (deed registry, city contracts, IDNYC) are fully within mayoral authority and don't require state or federal cooperation.</p>
+            </div>
+            <div class="qr-grid">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cointelegraph.com/news/what-mamdani-s-mayoral-win-means-for-crypto-in-new-york" alt="QR">
+                    <span>Cointelegraph</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cointelegraph.com/news/zohran-mamdani-crypto-election" alt="QR">
+                    <span>CT: Mamdani & Crypto</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Key Sources -->
+        <div class="slide">
+            <h2>Key Sources & References</h2>
+            <div class="qr-grid" style="justify-content: center;">
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.zohranfornyc.com/platform" alt="QR">
+                    <span>Official Platform</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cryptoslate.com/zohran-mamdanis-victory-tests-nycs-crypto-identity/" alt="QR">
+                    <span>CryptoSlate</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cointelegraph.com/news/what-mamdani-s-mayoral-win-means-for-crypto-in-new-york" alt="QR">
+                    <span>Cointelegraph</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.democracycollaborative.org/blogs/mamdani-five-key-policies" alt="QR">
+                    <span>Democracy Collab</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://news.cornell.edu/stories/2025/08/blockchain-platform-securely-digitizes-public-records" alt="QR">
+                    <span>Cornell Blockchain</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pmc.ncbi.nlm.nih.gov/articles/PMC10362317/" alt="QR">
+                    <span>PharmaChain</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.blockcerts.org/" alt="QR">
+                    <span>Blockcerts</span>
+                </div>
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.gooddollar.org/" alt="QR">
+                    <span>GoodDollar</span>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 30px; color: #8b949e;">Analysis compiled December 2025</p>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+
+            document.getElementById('progressBar').style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+            document.getElementById('slideCounter').textContent = (currentSlide + 1) + ' / ' + totalSlides;
+
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
