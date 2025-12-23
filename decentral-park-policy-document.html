@@ -316,9 +316,8 @@
         }
 
         .bullet-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
+            position: relative;
+            padding-left: 20px;
             margin-bottom: 14px;
             font-size: 0.95rem;
             line-height: 1.6;
@@ -326,12 +325,17 @@
         }
 
         .bullet-list .bullet {
+            position: absolute;
+            left: 0;
+            top: 9px;
             width: 6px;
             height: 6px;
             border-radius: 50%;
             background: var(--accent-green);
-            margin-top: 9px;
-            flex-shrink: 0;
+        }
+
+        .bullet-list .bullet-text {
+            display: inline;
         }
 
         .bullet-list .bullet.coral { background: var(--accent-coral); }
@@ -1261,8 +1265,8 @@
                         </div>
                         <h3 style="color: var(--accent-green); margin-bottom: 10px; font-size: 0.95rem;">Day 1 Actions</h3>
                         <ul class="bullet-list" style="font-size: 0.85rem;">
-                            <li><span class="bullet amber"></span><strong>Reduce budget significantly</strong> — cut industry promotion spending</li>
-                            <li><span class="bullet"></span><strong>Amend EO 57</strong> — rewrite mission statement</li>
+                            <li><span class="bullet amber"></span><span class="bullet-text"><strong>Reduce budget significantly</strong> — cut industry promotion spending</span></li>
+                            <li><span class="bullet"></span><span class="bullet-text"><strong>Amend EO 57</strong> — rewrite mission statement</span></li>
                         </ul>
                     </div>
                 </div>
