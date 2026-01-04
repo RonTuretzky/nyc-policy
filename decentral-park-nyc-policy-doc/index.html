@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decentral Park NYC Policy Doc</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --accent-green: #4ade80;
+            --accent-purple: #a78bfa;
+            --accent-blue: #60a5fa;
+            --accent-orange: #fb923c;
+            --accent-pink: #f472b6;
+            --gradient-1: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);
+            --gradient-2: linear-gradient(135deg, #a78bfa 0%, #f472b6 100%);
+            --gradient-3: linear-gradient(135deg, #fb923c 0%, #f472b6 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            background: radial-gradient(ellipse at top, #1a1a2e 0%, var(--bg-primary) 100%);
+            text-align: center;
+        }
+
+        .title-slide h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .title-slide .meta {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .title-slide .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .title-slide .meta-item .icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Section Slides */
+        .section-slide {
+            background: var(--bg-primary);
+        }
+
+        .section-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-green);
+            margin-bottom: 16px;
+        }
+
+        .section-slide h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+            line-height: 1.2;
+        }
+
+        .section-slide .lead {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        .card-icon.green { background: rgba(74, 222, 128, 0.15); color: var(--accent-green); }
+        .card-icon.purple { background: rgba(167, 139, 250, 0.15); color: var(--accent-purple); }
+        .card-icon.blue { background: rgba(96, 165, 250, 0.15); color: var(--accent-blue); }
+        .card-icon.orange { background: rgba(251, 146, 60, 0.15); color: var(--accent-orange); }
+        .card-icon.pink { background: rgba(244, 114, 182, 0.15); color: var(--accent-pink); }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Stats */
+        .stats-row {
+            display: flex;
+            gap: 48px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+            margin-top: 24px;
+        }
+
+        .bullet-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .bullet-list .bullet {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            margin-top: 10px;
+            flex-shrink: 0;
+        }
+
+        /* Quote */
+        .quote-block {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-purple);
+            padding: 32px 40px;
+            border-radius: 0 16px 16px 0;
+            margin: 32px 0;
+        }
+
+        .quote-block p {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .quote-block .attribution {
+            margin-top: 16px;
+            color: var(--text-secondary);
+            font-style: normal;
+        }
+
+        /* Cost Table */
+        .cost-table {
+            width: 100%;
+            margin-top: 32px;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        .cost-table tr {
+            background: var(--bg-card);
+        }
+
+        .cost-table td {
+            padding: 16px 24px;
+            font-size: 1rem;
+        }
+
+        .cost-table td:first-child {
+            border-radius: 8px 0 0 8px;
+            color: var(--text-primary);
+        }
+
+        .cost-table td:last-child {
+            border-radius: 0 8px 8px 0;
+            text-align: right;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .cost-table tr.total {
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .cost-table tr.total td {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            background: rgba(26, 26, 36, 0.95);
+            padding: 16px 32px;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, transform 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+            transform: scale(1.1);
+        }
+
+        .slide-counter {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--accent-green);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Keyboard hint */
+        .keyboard-hint {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        /* Highlight text */
+        .highlight {
+            color: var(--accent-green);
+        }
+
+        .highlight-purple {
+            color: var(--accent-purple);
+        }
+
+        .highlight-orange {
+            color: var(--accent-orange);
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        /* Stakeholders */
+        .stakeholder-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .stakeholder-tag {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 20px;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .stakeholder-tag:hover {
+            border-color: var(--accent-green);
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        /* Final Slide */
+        .final-slide {
+            text-align: center;
+            background: radial-gradient(ellipse at bottom, #1a1a2e 0%, var(--bg-primary) 100%);
+        }
+
+        .final-slide h2 {
+            font-size: 3.5rem;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+        }
+
+        .final-slide .tagline {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 48px;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .cta-btn {
+            padding: 16px 32px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn.primary {
+            background: var(--gradient-1);
+            color: var(--bg-primary);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--text-secondary);
+            color: var(--text-primary);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(74, 222, 128, 0.3);
+        }
+
+        /* Logo */
+        .logo {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            z-index: 100;
+        }
+
+        .logo span {
+            color: var(--accent-green);
+        }
+
+        /* Case Study */
+        .case-study-card {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(96, 165, 250, 0.1) 100%);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 32px;
+        }
+
+        .case-study-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .case-study-badge {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .case-study-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Big Text */
+        .big-statement {
+            font-size: 2rem;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+        }
+
+        .big-statement .em {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 24px;
+            }
+
+            .title-slide h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-slide h2 {
+                font-size: 2rem;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-controls {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">Decentral<span>Park</span></div>
+    <div class="keyboard-hint">Use ← → or click to navigate</div>
+
+    <div class="slideshow-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <div class="slide-content">
+                <h1>Decentral Park NYC<br>Transition Memo</h1>
+                <p class="subtitle">Proposals for the Mamdani Administration</p>
+                <div class="meta">
+                    <div class="meta-item">
+                        <div class="icon">📍</div>
+                        <span>Dubai Meetup Notes</span>
+                    </div>
+                    <div class="meta-item">
+                        <div class="icon">👥</div>
+                        <span>Josh & Beth's Session</span>
+                    </div>
+                    <div class="meta-item">
+                        <div class="icon">🌐</div>
+                        <span>Decentralized Infrastructure</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Who is Decentral Park -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Who We Are</div>
+                <h2>What is <span class="highlight">Decentral Park?</span></h2>
+                <p class="lead">A coalition of technologists, policy advocates, and community organizers working at the intersection of blockchain technology and progressive urban policy.</p>
+
+                <div class="two-col" style="margin-top: 40px;">
+                    <div>
+                        <h3 style="color: var(--accent-green); margin-bottom: 20px;">Our Background</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;">We come from the crypto and blockchain space—not as speculators, but as builders who see these technologies as tools for <strong style="color: var(--text-primary);">democratic infrastructure</strong>.</p>
+                        <p style="color: var(--text-secondary); line-height: 1.8;">Our members include developers, economists, cooperative organizers, and civic technologists who have spent years exploring how decentralized systems can serve public goods.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent-purple); margin-bottom: 20px;">Our Mission</h3>
+                        <ul class="bullet-list">
+                            <li><span class="bullet" style="background: var(--accent-purple);"></span>Bridge the gap between crypto innovation and progressive policy</li>
+                            <li><span class="bullet" style="background: var(--accent-purple);"></span>Advocate for community-controlled digital infrastructure</li>
+                            <li><span class="bullet" style="background: var(--accent-purple);"></span>Support participatory governance experiments</li>
+                            <li><span class="bullet" style="background: var(--accent-purple);"></span>Build coalitions with cooperatives, unions, and civic groups</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Why Crypto for Democracy -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">The Thesis</div>
+                <h2>Why Are <span class="highlight-purple">Progressives</span> Talking About Crypto?</h2>
+
+                <p class="big-statement">The mainstream narrative around cryptocurrency focuses on <span class="em">speculation and investment</span>. We're interested in something different: <span class="em">infrastructure and participation</span>.</p>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon purple">🏛️</div>
+                        <h3>The Problem with Centralization</h3>
+                        <p>Payment processors extract 2-3% of every transaction. Tech platforms control our data. Financial institutions decide who gets access to capital. These gatekeepers extract value from communities without accountability.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon green">🔓</div>
+                        <h3>Crypto as Public Infrastructure</h3>
+                        <p>Blockchain technology offers something rare: the ability to build financial and governance infrastructure that no single entity controls. This isn't about replacing government—it's about giving government better tools.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon blue">🗳️</div>
+                        <h3>Democracy Needs Better Tools</h3>
+                        <p>Participatory budgeting, cooperative ownership, transparent public spending—these progressive ideals have been limited by technology. Crypto provides verifiable, tamper-proof systems for democratic participation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Crypto as Infrastructure -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Reframing the Conversation</div>
+                <h2>Crypto as <span class="highlight">Payment</span>, Not Investment</h2>
+                <p class="lead">For most people, "crypto" means Bitcoin prices and NFT speculation. But the underlying technology enables something far more important: public payment and governance infrastructure free from corporate gatekeepers.</p>
+
+                <div class="two-col" style="margin-top: 40px;">
+                    <div>
+                        <h3 style="color: var(--accent-orange); margin-bottom: 20px;">What We're NOT Proposing</h3>
+                        <ul class="bullet-list">
+                            <li><span class="bullet" style="background: var(--accent-orange);"></span>Speculative cryptocurrency investments</li>
+                            <li><span class="bullet" style="background: var(--accent-orange);"></span>Replacing the dollar with Bitcoin</li>
+                            <li><span class="bullet" style="background: var(--accent-orange);"></span>"Disrupting" government services</li>
+                            <li><span class="bullet" style="background: var(--accent-orange);"></span>Deregulation or libertarian policies</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent-green); margin-bottom: 20px;">What We ARE Proposing</h3>
+                        <ul class="bullet-list">
+                            <li><span class="bullet"></span>City-owned payment rails that don't enrich Visa/Mastercard</li>
+                            <li><span class="bullet"></span>Transparent, verifiable participatory budgeting</li>
+                            <li><span class="bullet"></span>Community-controlled identity systems</li>
+                            <li><span class="bullet"></span>Democratic governance tools that actually work</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quote-block" style="margin-top: 40px; border-color: var(--accent-green);">
+                    <p>"NYC is the heart of capitalism but doesn't control capital. These tools can change that."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Case Study - RadicalxChange -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proof It Works</div>
+                <h2>Case Study: <span class="highlight-purple">Quadratic Voting in Harlem</span></h2>
+                <p class="lead">In 2023, RadicalxChange partnered with NYC Council Member Kristin Richardson Jordan to run the first public online Quadratic Voting experiment in US history.</p>
+
+                <div class="case-study-card">
+                    <div class="case-study-header">
+                        <span class="case-study-badge">Real World Example</span>
+                        <span class="case-study-title">District 9 Participatory Budgeting</span>
+                    </div>
+
+                    <div class="two-col">
+                        <div>
+                            <h4 style="color: var(--accent-purple); margin-bottom: 12px;">How It Worked</h4>
+                            <ul class="bullet-list" style="margin-top: 0;">
+                                <li><span class="bullet" style="background: var(--accent-purple);"></span>Residents registered at harlemwallet.org</li>
+                                <li><span class="bullet" style="background: var(--accent-purple);"></span>Eligibility verified against voter rolls</li>
+                                <li><span class="bullet" style="background: var(--accent-purple);"></span>Secure postal verification with QR codes</li>
+                                <li><span class="bullet" style="background: var(--accent-purple);"></span>Online voting using Quadratic Voting</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--accent-green); margin-bottom: 12px;">Top Funded Projects</h4>
+                            <ul class="bullet-list" style="margin-top: 0;">
+                                <li><span class="bullet"></span><strong>The Baxter</strong> — $1M affordable housing (136 votes)</li>
+                                <li><span class="bullet"></span><strong>Marcus Garvey Playground</strong> — $275K (119 votes)</li>
+                                <li><span class="bullet"></span><strong>Harlem River Park</strong> — $250K (100 votes)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">80%</div>
+                        <div class="stat-label">Voter satisfaction rate</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">First</div>
+                        <div class="stat-label">Public online QV in US history</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">District 9</div>
+                        <div class="stat-label">Harlem, NYC</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Overview -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Our Proposals</div>
+                <h2>Six Bold Proposals for <span class="highlight">Digital Equity</span></h2>
+                <p class="lead">A comprehensive framework for incorporating community-governed technology infrastructure into NYC's future—moving beyond centralized corporate control toward democratic participation.</p>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon green">🌐</div>
+                        <h3>Digital Equity</h3>
+                        <p>Community-controlled mesh networks and decentralized infrastructure</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon purple">🗳️</div>
+                        <h3>Participatory Budgeting</h3>
+                        <p>Blockchain-verified democratic investment of public funds</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon blue">💳</div>
+                        <h3>EBT Payment Rails</h3>
+                        <p>Government payment infrastructure as commercial competitor</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon orange">🏪</div>
+                        <h3>City Grocery Stores</h3>
+                        <p>Decentralized governance for public food infrastructure</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon pink">🪪</div>
+                        <h3>Decentralized Identity</h3>
+                        <p>Verified volunteer hours for governance weight allocation</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon green">📱</div>
+                        <h3>City Wallet System</h3>
+                        <p>$100M competitor to Visa/Mastercard that pays for itself</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Digital Equity -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proposal 01</div>
+                <h2>Decentralizing <span class="highlight">Digital Equity</span></h2>
+                <p class="lead">NYC should incorporate community-governed tech infrastructure into its Digital Equity Roadmap, moving beyond centralized corporate ISPs.</p>
+
+                <div class="quote-block">
+                    <p>"The digital divide persists despite being identified as a policy problem since 1995. Corporate Internet Service Providers expanded their market share, crowding out cooperative alternatives."</p>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">$36M</div>
+                        <div class="stat-label">Federal Digital Equity Act funding (terminated May 2025)</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">30 years</div>
+                        <div class="stat-label">The digital divide has persisted as a policy problem</div>
+                    </div>
+                </div>
+
+                <ul class="bullet-list" style="margin-top: 40px;">
+                    <li><span class="bullet"></span>Invest in community-controlled mesh infrastructure like <span class="highlight">NYC Mesh</span></li>
+                    <li><span class="bullet"></span>Reference <span class="highlight">INT-1122-2024a</span> passed by city council in October 2025</li>
+                    <li><span class="bullet"></span>Privacy-first design with protection against surveillance capitalism</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Digital Equity Benefits -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proposal 01 — Continued</div>
+                <h2>Why <span class="highlight">Community Networks?</span></h2>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon green">🔒</div>
+                        <h3>Privacy-First Design</h3>
+                        <p>Protection against surveillance capitalism with community-owned infrastructure that prioritizes user privacy over data extraction</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon purple">💵</div>
+                        <h3>Affordable Access</h3>
+                        <p>Community-controlled pricing ensures internet access isn't gatekept by profit-maximizing corporations</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon blue">🏘️</div>
+                        <h3>Community Control</h3>
+                        <p>Local ownership over infrastructure decisions, maintenance priorities, and expansion plans</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon orange">🛡️</div>
+                        <h3>Resilient Infrastructure</h3>
+                        <p>Mesh networks provide redundancy and resistance to centralized points of failure</p>
+                    </div>
+                </div>
+
+                <div class="quote-block" style="margin-top: 40px;">
+                    <p>"We are acutely aware of long-standing risks and problems inherent in centralized and extractive digital infrastructural-building."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Participatory Budgeting -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proposal 02</div>
+                <h2>Participatory <span class="highlight-purple">Budgeting</span></h2>
+                <p class="lead">Use blockchain-verified voting to give New Yorkers direct say over public investments—from pension funds to capital projects—with transparency and accountability built in.</p>
+
+                <div class="quote-block" style="border-color: var(--accent-purple);">
+                    <p>"NYC is the heart of capitalism but doesn't control capital."</p>
+                </div>
+
+                <div class="two-col" style="margin-top: 40px;">
+                    <div>
+                        <h3 style="color: var(--accent-purple); margin-bottom: 16px;">Current Problem</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8;">Traditional financial firms manage pension funds with minimal public input, extracting value from NYC communities while investing elsewhere. Participatory budgeting exists but lacks robust verification.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent-green); margin-bottom: 16px;">Proposed Solution</h3>
+                        <ul class="bullet-list">
+                            <li><span class="bullet"></span>Set aside fund portion for public voting</li>
+                            <li><span class="bullet"></span>Focus on NYC businesses, ESG initiatives, cooperatives</li>
+                            <li><span class="bullet"></span>Decentralized tech for transparency & verifiability</li>
+                            <li><span class="bullet"></span>Build on RadicalxChange's proven QV model</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: EBT Rails -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proposal 03</div>
+                <h2>EBT Rails as <span class="highlight-orange">PoS Alternative</span></h2>
+                <p class="lead">Convert government payment infrastructure into a commercial competitor to extract rent-seeking payment processors.</p>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon orange">📉</div>
+                        <h3>0.1% Sales Tax Reduction</h3>
+                        <p>Incentivize businesses and consumers to use city payment rails through direct tax benefits</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon blue">📊</div>
+                        <h3>Price Gouging Data</h3>
+                        <p>Collect aggregated data on pricing in working-class neighborhoods to identify problems</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon green">📍</div>
+                        <h3>Strategic Location Data</h3>
+                        <p>Use transaction data to identify optimal locations for city grocery stores</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon purple">🔐</div>
+                        <h3>Privacy-Preserving</h3>
+                        <p>Gather less-personalized data than centralized competitors while still being useful</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: City Grocery Stores -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proposal 04</div>
+                <h2>City-Owned <span class="highlight">Grocery Stores</span></h2>
+                <p class="lead">Decentralized governance for public food infrastructure—avoiding "Walmart run by the MTA."</p>
+
+                <div class="two-col">
+                    <div>
+                        <h3 style="color: var(--accent-orange); margin-bottom: 20px;">Design Challenges</h3>
+                        <ul class="bullet-list">
+                            <li><span class="bullet" style="background: var(--accent-orange);"></span>Location strategy (accessibility vs. competitive pressure)</li>
+                            <li><span class="bullet" style="background: var(--accent-orange);"></span>Distribution network across large boroughs</li>
+                            <li><span class="bullet" style="background: var(--accent-orange);"></span>Co-op model integration</li>
+                            <li><span class="bullet" style="background: var(--accent-orange);"></span>Disability access considerations</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent-green); margin-bottom: 20px;">Proposed Solutions</h3>
+                        <ul class="bullet-list">
+                            <li><span class="bullet"></span>Decentralized governance voting for placement</li>
+                            <li><span class="bullet"></span>Community-organized delivery shuttles</li>
+                            <li><span class="bullet"></span>Independent operation per store</li>
+                            <li><span class="bullet"></span>"City owned bodegas" as alternative model</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quote-block" style="margin-top: 40px;">
+                    <p>"Rather than be limited by legal contracts and entities, could be an area that is ripe for crypto to simplify."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Grocery Store Features -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proposal 04 — Continued</div>
+                <h2>Quality of Life <span class="highlight">Features</span></h2>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon green">🎒</div>
+                        <h3>Good Quality Grocery Backpacks</h3>
+                        <p>Provide durable, reusable bags for sustainable shopping and easy transport</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon purple">💡</div>
+                        <h3>UV Lighting</h3>
+                        <p>Enhanced sanitation through modern lighting technology</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon blue">🌬️</div>
+                        <h3>Improved Airflow</h3>
+                        <p>Better ventilation systems for healthier shopping environments</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon orange">🏪</div>
+                        <h3>Externalized Decision-Making</h3>
+                        <p>Each store operates independently while sharing governance frameworks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Decentralized Identity -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proposal 05</div>
+                <h2>Decentralized <span class="highlight-purple">Identity (DIDs)</span></h2>
+                <p class="lead">Allocate governance weight for community decisions based on verified volunteer hours—putting power in the hands of active participants.</p>
+
+                <div class="two-col">
+                    <div>
+                        <h3 style="margin-bottom: 20px;">Specific Use Cases</h3>
+                        <ul class="bullet-list">
+                            <li><span class="bullet" style="background: var(--accent-purple);"></span>Mural design decisions with neighborhood influence</li>
+                            <li><span class="bullet" style="background: var(--accent-purple);"></span>Broader application to governance</li>
+                            <li><span class="bullet" style="background: var(--accent-purple);"></span>Funding allocation decisions</li>
+                            <li><span class="bullet" style="background: var(--accent-purple);"></span>Community capital formation</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 20px;">Related Tools</h3>
+                        <div class="stakeholder-tags">
+                            <span class="stakeholder-tag">Sarafu Commitment Pooling</span>
+                            <span class="stakeholder-tag">Gardens Conviction Voting</span>
+                            <span class="stakeholder-tag">Octant Vaults</span>
+                            <span class="stakeholder-tag">Flow State Funding</span>
+                            <span class="stakeholder-tag">Hypercerts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: City Wallet System -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proposal 06</div>
+                <h2>City <span class="highlight">Wallet System</span></h2>
+                <p class="lead">For less than $100 Million, Mamdani could build a competitor to Visa/Mastercard that pays for itself within 5-7 years.</p>
+
+                <table class="cost-table">
+                    <tr>
+                        <td>Software (app & backend ledger)</td>
+                        <td>$15-25M</td>
+                    </tr>
+                    <tr>
+                        <td>Hardware (15,000 terminals)</td>
+                        <td>$3-5M</td>
+                    </tr>
+                    <tr>
+                        <td>Deployment labor</td>
+                        <td>$20-30M</td>
+                    </tr>
+                    <tr>
+                        <td>Marketing & incentives</td>
+                        <td>$10-20M</td>
+                    </tr>
+                    <tr>
+                        <td>Legal & compliance</td>
+                        <td>$5-10M</td>
+                    </tr>
+                    <tr class="total">
+                        <td>Total Upfront Cost</td>
+                        <td>$53-90M</td>
+                    </tr>
+                </table>
+
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">$10-15M</div>
+                        <div class="stat-label">Annual operational costs</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">$15-30M</div>
+                        <div class="stat-label">Annual revenue potential (data monetization)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: City Wallet Requirements -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Proposal 06 — Continued</div>
+                <h2>Backend <span class="highlight">Requirements</span></h2>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon green">✅</div>
+                        <h3>KYC/AML Compliance</h3>
+                        <p>Full regulatory compliance with Know Your Customer and Anti-Money Laundering requirements</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon purple">⚡</div>
+                        <h3>High Throughput</h3>
+                        <p>Handle millions of transactions per second to support city-scale adoption</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon blue">🔗</div>
+                        <h3>City System Integration</h3>
+                        <p>Seamless connection with HRA benefits, tax collection, and other city services</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon orange">🏛️</div>
+                        <h3>15,000 Terminals</h3>
+                        <p>Physical infrastructure deployment across businesses citywide</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Cross-Cutting Themes -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Cross-Cutting Theme</div>
+                <h2>Democratic <span class="highlight-purple">Participation</span></h2>
+                <p class="lead">All proposals emphasize giving New Yorkers direct voice in decisions that affect their lives.</p>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon green">🗳️</div>
+                        <h3>Grocery Store Placement</h3>
+                        <p>Community voting on where to locate new city-owned grocery stores</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon purple">💰</div>
+                        <h3>Investment Decisions</h3>
+                        <p>Public input on where city funds are invested</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon blue">🎨</div>
+                        <h3>Public Art/Mural Governance</h3>
+                        <p>Neighborhood-weighted decisions on public art installations</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon orange">🚐</div>
+                        <h3>Community Delivery</h3>
+                        <p>Decentralized organization of delivery shuttle services</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Stakeholders -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">Next Steps</div>
+                <h2>Key <span class="highlight">Stakeholders</span> to Engage</h2>
+                <p class="lead">Building the coalition for decentralized NYC infrastructure.</p>
+
+                <div class="stakeholder-tags" style="margin-top: 40px;">
+                    <span class="stakeholder-tag">🌱 Greenpill NYC</span>
+                    <span class="stakeholder-tag">🏛️ Metagov</span>
+                    <span class="stakeholder-tag">♻️ Regen Foundation</span>
+                    <span class="stakeholder-tag">📡 NYC Mesh</span>
+                    <span class="stakeholder-tag">📞 People's Choice Communications</span>
+                    <span class="stakeholder-tag">🤝 Cooperatives</span>
+                    <span class="stakeholder-tag">🌍 ESG-focused Businesses</span>
+                    <span class="stakeholder-tag">🔷 RadicalxChange</span>
+                </div>
+
+                <div class="quote-block" style="margin-top: 48px;">
+                    <p>"Look over Mamdani's platform and link arguments to principles, ideas, and language used there."</p>
+                    <div class="attribution">— Notes for next revision</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: References -->
+        <div class="slide section-slide">
+            <div class="slide-content">
+                <div class="section-number">References</div>
+                <h2>Key <span class="highlight-purple">Documents</span></h2>
+
+                <ul class="bullet-list" style="margin-top: 32px;">
+                    <li><span class="bullet" style="background: var(--accent-purple);"></span>RadicalxChange Quadratic Voting in NYC (2023)</li>
+                    <li><span class="bullet" style="background: var(--accent-purple);"></span>Internet Society Foundation definition of digital equity</li>
+                    <li><span class="bullet" style="background: var(--accent-purple);"></span>Digital Equity Act of 2021</li>
+                    <li><span class="bullet" style="background: var(--accent-purple);"></span>Infrastructure and Jobs Act of 2021</li>
+                    <li><span class="bullet" style="background: var(--accent-purple);"></span>NYC Office of Technology Innovation Digital Equity Roadmap</li>
+                    <li><span class="bullet" style="background: var(--accent-purple);"></span>Rebecca Williams' "digital sanctuary city" concept</li>
+                    <li><span class="bullet" style="background: var(--accent-purple);"></span>NYC Mesh node map vs. NYC Digital Equity Assets Map comparison</li>
+                    <li><span class="bullet" style="background: var(--accent-purple);"></span>Beta NYC transition memo</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 19: Final -->
+        <div class="slide final-slide">
+            <div class="slide-content">
+                <h2>Let's Build<br>Together</h2>
+                <p class="tagline">Rest, and radical imagination. Creating space for all the ways we can build a better world together.</p>
+                <div class="cta-buttons">
+                    <a href="https://decentralpark.nyc" class="cta-btn primary">Join Decentral Park</a>
+                    <a href="#" class="cta-btn secondary">Read Full Memo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">←</button>
+        <div class="progress-dots" id="progressDots"></div>
+        <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">19</span></span>
+        <button class="nav-btn" onclick="nextSlide()">→</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+
+        // Initialize progress dots
+        const progressDotsContainer = document.getElementById('progressDots');
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            progressDotsContainer.appendChild(dot);
+        }
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlide();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlide();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Touch support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                prevSlide();
+            }
+        });
+
+        // Update total slides counter
+        document.getElementById('totalSlides').textContent = totalSlides;
+    </script>
+</body>
+</html>
