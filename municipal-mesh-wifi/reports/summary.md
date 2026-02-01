@@ -3,6 +3,46 @@
 Data extracted from 6 LLM research reports, traced to original sources where available. Discrepancies flagged with source attribution.
 
 ---
+## CTAs
+Top 5 Mayoral Actions
+1.)
+Action: Operating grants to NYC Mesh/Red Hook
+Cost: $2-3M/yr
+Timeline: 90 days
+Impact: 3-5k households/yr
+
+2.)
+Action: Open NYCHA rooftops (directive)
+Cost: $0
+Timeline: 6 months
+Impact: Unlocks 335 developments
+
+3.)
+Action: Apply for BEAD/ConnectALL funding
+Cost: ~$300k
+Timeline: 12-18 mo
+Impact: $20-50M federal/state money
+
+4.)
+Action: Expedite streetlight pole permits
+Cost: $0-500k
+Timeline: 120 days
+Impact: Citywide coverage backbone
+
+5.)
+Action: Redirect Big Apple Connect when contracts expire
+Cost: $0 net
+Timeline: FY2026+
+Impact: 30k households/yr, permanent infrastructure
+Key insight from the analysis: The bottleneck isn't technology or community willingness—it's access to
+infrastructure (rooftops, backhaul) and sustainable operating funding. NYC Mesh operates at $300/node/year versus
+tens of millions to incumbents. The Bronx has 36.7% disconnection and only 1 NYC Mesh node.
+
+The two quickest wins are:
+1. NYCHA rooftop directive - $0 cost, administrative action, Day 1
+2. Operating grants - $2-3M unlocks 3,000-5,000 new connections in 90 days
+
+ 
 
 ## Table 1: ISP Bandwidth Cost Comparisons
 
