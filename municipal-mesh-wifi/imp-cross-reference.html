@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC Internet Master Plan x Municipal Mesh WiFi PR - Cross Reference</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0a0a2e; color: #e8e8f0; overflow: hidden; }
+
+  .slideshow { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 60px 80px; opacity: 0; pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .slide.active { opacity: 1; pointer-events: all; }
+
+  .slide h1 { font-size: 2.4em; margin-bottom: 20px; color: #fff; text-align: center; line-height: 1.2; }
+  .slide h2 { font-size: 1.8em; margin-bottom: 24px; color: #6eb5ff; text-align: center; }
+  .slide h3 { font-size: 1.3em; margin-bottom: 12px; color: #ff9f43; }
+  .slide p { font-size: 1.1em; line-height: 1.6; max-width: 1000px; text-align: center; color: #c8c8e0; }
+  .slide ul { list-style: none; max-width: 1000px; width: 100%; }
+  .slide ul li { padding: 10px 0; font-size: 1.05em; line-height: 1.5; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .slide ul li:last-child { border-bottom: none; }
+
+  .badge-imp { background: #1a3a6e; color: #6eb5ff; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600; margin-right: 6px; }
+  .badge-pr { background: #3a1a1a; color: #ff6b6b; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600; margin-right: 6px; }
+  .badge-gap { background: #1a3a2a; color: #6bffb8; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 600; margin-right: 6px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1100px; width: 100%; }
+  .col { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 28px; border: 1px solid rgba(255,255,255,0.08); }
+  .col h3 { margin-bottom: 14px; }
+  .col ul { margin: 0; }
+  .col ul li { font-size: 0.95em; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; width: 100%; }
+  .stat-card {
+    background: rgba(255,255,255,0.05); border-radius: 12px; padding: 24px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat-card .number { font-size: 2.2em; font-weight: 700; color: #ff9f43; }
+  .stat-card .label { font-size: 0.9em; color: #a0a0c0; margin-top: 6px; }
+  .stat-card .source { font-size: 0.75em; color: #606080; margin-top: 8px; font-style: italic; }
+
+  .stat-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .stat-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(110,181,255,0.1), rgba(255,159,67,0.1));
+    border: 1px solid rgba(110,181,255,0.3); border-radius: 12px;
+    padding: 24px 32px; max-width: 900px; margin-top: 20px; text-align: center;
+  }
+  .highlight-box p { font-size: 1.15em; color: #e0e0ff; }
+
+  .subtitle { font-size: 1em; color: #808098; margin-bottom: 30px; text-align: center; }
+
+  .nav {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 12px; align-items: center; z-index: 100;
+    background: rgba(10,10,46,0.9); padding: 12px 24px; border-radius: 40px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav button {
+    background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 20px;
+    border-radius: 20px; cursor: pointer; font-size: 0.95em; transition: background 0.2s;
+  }
+  .nav button:hover { background: rgba(255,255,255,0.2); }
+  .nav .counter { color: #808098; font-size: 0.9em; min-width: 60px; text-align: center; }
+
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: background 0.3s; cursor: pointer; }
+  .dot.active { background: #6eb5ff; }
+
+  .tag { display: inline-block; font-size: 0.8em; padding: 3px 10px; border-radius: 12px; margin: 2px; }
+  .tag-match { background: rgba(110,181,255,0.15); color: #6eb5ff; border: 1px solid rgba(110,181,255,0.3); }
+  .tag-new { background: rgba(107,255,184,0.15); color: #6bffb8; border: 1px solid rgba(107,255,184,0.3); }
+
+  .arrow { font-size: 1.4em; color: #ff9f43; margin: 0 6px; }
+
+  @media (max-width: 900px) {
+    .slide { padding: 40px 24px; }
+    .two-col { grid-template-columns: 1fr; }
+    .stat-grid, .stat-grid-4 { grid-template-columns: 1fr 1fr; }
+    .slide h1 { font-size: 1.6em; }
+    .slide h2 { font-size: 1.3em; }
+  }
+</style>
+</head>
+<body>
+
+<div class="slideshow" id="slideshow">
+
+<!-- SLIDE 1: Title -->
+<div class="slide active" id="slide-0">
+  <h1>NYC Internet Master Plan (2020)<br>&times;<br>Municipal Mesh WiFi PR #12</h1>
+  <p class="subtitle">Cross-Reference Analysis</p>
+  <p>The NYC Internet Master Plan is the City's official broadband strategy document. PR #12 proposes Municipal Mesh WiFi as Proposal 3 for Decentral Park NYC's crypto policy recommendations to the Mamdani administration.</p>
+  <div class="highlight-box" style="margin-top: 30px;">
+    <p>This slideshow identifies <strong>10 areas of direct cross-reference</strong> between the IMP and the PR, plus statistics from the IMP that could strengthen the PR's arguments.</p>
+  </div>
+</div>
+
+<!-- SLIDE 2: The Digital Divide - Core Shared Theme -->
+<div class="slide" id="slide-1">
+  <h2>1. The Digital Divide: Shared Foundation</h2>
+  <p class="subtitle">Both documents center the same core problem</p>
+  <div class="two-col">
+    <div class="col">
+      <h3><span class="badge-imp">IMP</span> What the Master Plan says</h3>
+      <ul>
+        <li><strong>29%</strong> of NYC households lack a broadband subscription at home (p.10)</li>
+        <li><strong>1.5 million</strong> New Yorkers have neither mobile nor home broadband (p.10)</li>
+        <li><strong>40%</strong> of NYC City households lack combined home + mobile broadband (p.9, Executive Summary)</li>
+        <li>The Bronx has the <strong>lowest broadband adoption</strong> of any borough (p.13, p.32)</li>
+        <li>Neighborhoods with competitive broadband markets have <strong>higher household incomes</strong> (p.13)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3><span class="badge-pr">PR #12</span> What the PR claims</h3>
+      <ul>
+        <li><strong>69%</strong> of NYC residents have only 1-2 ISP choices (citing NYC Broadband Report 2018)</li>
+        <li><strong>36.7%</strong> Bronx disconnection rate (citing NY State Comptroller 2024)</li>
+        <li><strong>7x</strong> income disparity between connected/disconnected households (citing IMP 2020)</li>
+        <li><strong>$79.83/mo</strong> Bronx vs <strong>$56</strong> Manhattan pricing gap</li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight-box">
+    <p><span class="tag tag-match">Direct citation</span> The PR already cites the IMP for the 7x income disparity figure. The IMP's 29% / 1.5M / 40% stats could further bolster the PR.</p>
+  </div>
+</div>
+
+<!-- SLIDE 3: ISP Competition / Choice -->
+<div class="slide" id="slide-2">
+  <h2>2. ISP Competition &amp; Lack of Choice</h2>
+  <div class="two-col">
+    <div class="col">
+      <h3><span class="badge-imp">IMP</span> Residential Broadband Choice (p.35)</h3>
+      <ul>
+        <li>Map 6 shows vast areas of the Bronx, Brooklyn, Queens with only <strong>0-1 ISPs</strong></li>
+        <li>Areas with 3+ providers are limited to <strong>wealthy, dense neighborhoods</strong> (p.35)</li>
+        <li>Households with 3+ providers have average incomes <strong>50% greater</strong> than those with only 2 (p.35)</li>
+        <li>Commercial fiber choice is concentrated in <strong>Manhattan</strong>; outer boroughs have low/medium-low (p.38)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3><span class="badge-pr">PR #12</span> Competition Claims</h3>
+      <ul>
+        <li><strong>69%</strong> of residents have 1-2 ISP choices</li>
+        <li>Proposes mesh WiFi as a <strong>community-owned alternative</strong> to break ISP monopoly</li>
+        <li>Cites <strong>Harvard Berkman Klein</strong> study on municipal network pricing being 25-50% lower</li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight-box">
+    <p><span class="tag tag-new">Usable stat</span> IMP's Map 6 data + the "50% greater income" stat for areas with competition could be cited in the PR to show the equity case is <em>the City's own finding</em>.</p>
+  </div>
+</div>
+
+<!-- SLIDE 4: Bronx as Priority -->
+<div class="slide" id="slide-3">
+  <h2>3. Bronx-First Deployment: Validated by IMP</h2>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="number">Lowest</div>
+      <div class="label">Bronx broadband adoption rate of any borough</div>
+      <div class="source">IMP p.13, p.32</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">36.7%</div>
+      <div class="label">Bronx disconnection rate (PR cites Comptroller 2024)</div>
+      <div class="source">PR #12</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">$79.83</div>
+      <div class="label">Average Bronx monthly broadband cost</div>
+      <div class="source">PR #12 (BroadbandNow)</div>
+    </div>
+  </div>
+  <div style="margin-top: 30px; max-width: 900px;">
+    <ul>
+      <li><span class="badge-imp">IMP</span> Names <strong>Fordham, Bedford Park, Bayley Park</strong> in the Bronx as having home broadband adoption lower than 60% and mobile broadband higher than 75% (p.32-33)</li>
+      <li><span class="badge-pr">PR #12</span> Targets <strong>Fordham/Bedford Park/Norwood</strong> with 47.8% disconnection for Bronx-first mesh deployment</li>
+      <li><span class="tag tag-match">Direct overlap</span> Both documents independently identify the same Bronx neighborhoods as highest-need</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SLIDE 5: NYCHA Rooftops -->
+<div class="slide" id="slide-4">
+  <h2>4. NYCHA Rooftops &amp; City Real Estate Assets</h2>
+  <div class="two-col">
+    <div class="col">
+      <h3><span class="badge-imp">IMP</span> City Assets Strategy</h3>
+      <ul>
+        <li>The IMP calls for <strong>"Optimize Public Assets"</strong> as a core implementation pillar (p.72)</li>
+        <li>City owns <strong>~24,000 rooftops and poles</strong> suitable for broadband deployment (p.64)</li>
+        <li>Map 16 maps <strong>rooftop fixed wireless access opportunities</strong> by presence of City buildings (p.63)</li>
+        <li>The City established the <strong>Broadband City Asset Task Force (BCAT)</strong> to inventory all assets for broadband (p.19)</li>
+        <li>ConnectHome brought broadband to <strong>NYCHA in the Bronx</strong> via partnership with HUD and T-Mobile (p.49)</li>
+        <li>Figure 26 lists <strong>180 Neighborhood Tabulation Areas</strong> with rooftops, rooms, and poles available (p.64)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3><span class="badge-pr">PR #12</span> Day 1 Action</h3>
+      <ul>
+        <li><strong>"Open NYCHA rooftops to community networks"</strong> - zero cost, unlocks 335 developments</li>
+        <li>Mayoral directive, no legislation needed</li>
+        <li>50 public building supernodes for $50k total, reaching 25k residents at $2/household</li>
+      </ul>
+      <div style="margin-top: 16px; padding: 12px; background: rgba(107,255,184,0.08); border-radius: 8px;">
+        <p style="font-size: 0.9em; text-align: left;"><span class="tag tag-new">Key stat for PR</span> The IMP already inventoried <strong>24,000 city-owned rooftops</strong>. The PR's NYCHA rooftop proposal is a subset of what the City's own plan already mapped and endorsed.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: Community Networks -->
+<div class="slide" id="slide-5">
+  <h2>5. Community Networks: Red Hook &amp; NYC Mesh</h2>
+  <div class="two-col">
+    <div class="col">
+      <h3><span class="badge-imp">IMP</span> Official Recognition (p.49)</h3>
+      <ul>
+        <li>IMP explicitly highlights <strong>resilient Wi-Fi networks operated by community-based organizations</strong> (CBOs)</li>
+        <li>Names <strong>Red Hook WiFi</strong> (launched after Hurricane Sandy via New America Foundation) as a model</li>
+        <li>References NYCEDC supporting community WiFi development in <strong>six neighborhoods</strong></li>
+        <li>The <strong>ConnectBIZ</strong> program delivered broadband to industrial business zones</li>
+        <li>Calls for <strong>"Digital Stewards"</strong> - community members trained to install/maintain networks</li>
+        <li>Section on <strong>Mesh Wi-Fi</strong> (p.59): "Mesh Wi-Fi can be a way to share an internet connection and reduce the cost per user"</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3><span class="badge-pr">PR #12</span> Community Network Proposals</h3>
+      <ul>
+        <li>Stabilize <strong>Red Hook WiFi ($36k/yr)</strong></li>
+        <li>Fund <strong>NYC Mesh ($2M grants)</strong></li>
+        <li>Expand Digital Stewards program</li>
+        <li>NYC Mesh: $290 standard install, $300/node/year operating cost</li>
+      </ul>
+      <div style="margin-top: 16px; padding: 12px; background: rgba(107,255,184,0.08); border-radius: 8px;">
+        <p style="font-size: 0.9em; text-align: left;"><span class="tag tag-match">Strong alignment</span> The IMP already validates community mesh as a legitimate broadband strategy. The PR can frame its proposals as <em>fulfilling the IMP's own vision</em>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: LinkNYC -->
+<div class="slide" id="slide-6">
+  <h2>6. LinkNYC &amp; Franchise Agreements</h2>
+  <div class="two-col">
+    <div class="col">
+      <h3><span class="badge-imp">IMP</span> Franchise Framework (p.46)</h3>
+      <ul>
+        <li>Figure 20 shows franchise agreement timeline: <strong>Cable (2021), Information Services (2022), Public Communications (2026)</strong></li>
+        <li>LinkNYC described as the <strong>"largest, fastest municipal WiFi system in the world"</strong> with 5M+ users (p.49)</li>
+        <li>IMP notes franchise agreements can last <strong>up to 15 years</strong> and are periodically renegotiated (p.46)</li>
+        <li>DOITT is empowered to <strong>negotiate and enter into telecommunications franchises</strong> (p.47)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3><span class="badge-pr">PR #12</span> LinkNYC Critique</h3>
+      <ul>
+        <li>CityBridge owes <strong>$73M+</strong> to the City (DiNapoli audit 2021)</li>
+        <li>LinkNYC missed <strong>41%</strong> of kiosk installation targets</li>
+        <li>Calls for <strong>renegotiation</strong> of LinkNYC agreement</li>
+        <li>Year 1 priority: redirect LinkNYC money to community infrastructure</li>
+      </ul>
+      <div style="margin-top: 16px; padding: 12px; background: rgba(255,159,67,0.08); border-radius: 8px;">
+        <p style="font-size: 0.9em; text-align: left;"><span class="tag tag-new">Opportunity</span> IMP's 2026 franchise renewal window for "Public Communications" is <em>now</em>. The PR could cite this timeline as the legal mechanism for renegotiation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: Economic Impact -->
+<div class="slide" id="slide-7">
+  <h2>7. Economic Impact: IMP Stats for the PR</h2>
+  <p class="subtitle">The IMP contains powerful economic projections the PR doesn't yet use</p>
+  <div class="stat-grid-4 stat-grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="stat-card">
+      <div class="number">$142B</div>
+      <div class="label">Increase in Gross City Product</div>
+      <div class="source">IMP p.15, p.23</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">165K</div>
+      <div class="label">New jobs created</div>
+      <div class="source">IMP p.15, p.23</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">$49B</div>
+      <div class="label">Increase in personal income</div>
+      <div class="source">IMP p.15, p.23</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">$4.99-$139.90</div>
+      <div class="label">Monthly household savings projected</div>
+      <div class="source">IMP p.24</div>
+    </div>
+  </div>
+  <div class="highlight-box">
+    <p>The PR cites <strong>Chattanooga's 12x ROI</strong> as a case study. The IMP's own NYC-specific projections ($142B GDP / 165K jobs) are <em>far more compelling</em> since they come from the City itself. These should be incorporated into the PR.</p>
+  </div>
+</div>
+
+<!-- SLIDE 9: Infrastructure / Open Access Fiber -->
+<div class="slide" id="slide-8">
+  <h2>8. Open Access Infrastructure Model</h2>
+  <div class="two-col">
+    <div class="col">
+      <h3><span class="badge-imp">IMP</span> Network Architecture (p.56, p.64)</h3>
+      <ul>
+        <li>IMP calls for <strong>open access fiber optic infrastructure</strong> to every street intersection (p.12)</li>
+        <li>Estimated cost: <strong>$2.1 billion</strong> for citywide open access fiber (p.12)</li>
+        <li><strong>Neighborhood Fiber Collocation Facilities (NFCFs)</strong> - one per 180 neighborhoods (p.63)</li>
+        <li>Each NFCF connects <strong>120-150 assets</strong> per neighborhood</li>
+        <li>Supports <strong>multiple operators</strong> on shared, neutral infrastructure</li>
+        <li>Streetlight poles identified as key assets for <strong>wireless equipment</strong> (p.43)</li>
+        <li>IMP's "neutral host wireless" vision: shared spectrum network throughout every neighborhood (p.56)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3><span class="badge-pr">PR #12</span> Mesh Network Proposal</h3>
+      <ul>
+        <li>Deploy <strong>50 public building supernodes</strong> ($50k / 25k residents)</li>
+        <li><strong>Expedite streetlight pole permits</strong> for community broadband</li>
+        <li>Community-owned, decentralized model vs. incumbent monopoly</li>
+        <li>Mesh is <strong>40x more cost-effective</strong> than incumbent subsidies</li>
+      </ul>
+      <div style="margin-top: 16px; padding: 12px; background: rgba(107,255,184,0.08); border-radius: 8px;">
+        <p style="font-size: 0.9em; text-align: left;"><span class="tag tag-match">Alignment</span> The PR's supernode model maps directly to the IMP's NFCF concept. The IMP already endorsed shared, neutral infrastructure and streetlight-based wireless.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: Broadband Pricing -->
+<div class="slide" id="slide-9">
+  <h2>9. Broadband Pricing Data</h2>
+  <p class="subtitle">IMP Figure 16 (p.31) contains the most detailed ISP pricing table available from a City source</p>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="number">$14-$300</div>
+      <div class="label">Monthly broadband price range across NYC providers</div>
+      <div class="source">IMP Figure 16, p.31</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">8 ISPs</div>
+      <div class="label">Providers listed: Altice, Charter, Comcast, Honest, NYC Mesh, RCN, Starry, Verizon</div>
+      <div class="source">IMP Figure 16, p.31</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">NYC Mesh</div>
+      <div class="label">Listed at $0/mo (free, donation-based) in IMP pricing table</div>
+      <div class="source">IMP Figure 16, p.31</div>
+    </div>
+  </div>
+  <div class="highlight-box">
+    <p><span class="tag tag-new">Key finding</span> The IMP's own pricing table (Figure 16) already lists <strong>NYC Mesh as a provider at $0/month</strong>. This is official City recognition of community mesh as a legitimate broadband option. The PR should cite this.</p>
+  </div>
+</div>
+
+<!-- SLIDE 11: Implementation Phases -->
+<div class="slide" id="slide-10">
+  <h2>10. Implementation Phases: Unfulfilled Promises</h2>
+  <div class="two-col">
+    <div class="col">
+      <h3><span class="badge-imp">IMP</span> 4-Phase Plan (p.72-78)</h3>
+      <ul>
+        <li><strong>Phase 1:</strong> Introduce New Role for City Government - Universal Solicitation for Broadband (USB)</li>
+        <li><strong>Phase 2:</strong> Introduce New City role via public-private partnerships, open access infrastructure</li>
+        <li><strong>Phase 3:</strong> Expand Service to More New Yorkers - iterate on public fiber, expand to underserved areas</li>
+        <li><strong>Phase 4:</strong> Ensure All New Yorkers Benefit from Connectivity - digital inclusion, digital rights</li>
+        <li>Timeline: <strong>2020-2025</strong> for initial phases</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3><span class="badge-gap">GAP</span> What Didn't Happen</h3>
+      <ul>
+        <li>The IMP was published in <strong>January 2020</strong> - COVID hit 2 months later</li>
+        <li>Instead of open access fiber, the City launched <strong>Big Apple Connect</strong> - $90M to incumbents (Spectrum/Optimum)</li>
+        <li>No Universal Solicitation for Broadband was ever issued</li>
+        <li>NYCHA rooftops were <strong>never systematically opened</strong> to community networks</li>
+        <li>The PR's proposals fill the gap between the IMP's vision and what was actually implemented</li>
+      </ul>
+      <div style="margin-top: 16px; padding: 12px; background: rgba(255,107,107,0.08); border-radius: 8px;">
+        <p style="font-size: 0.9em; text-align: left;"><span class="tag tag-new">Framing opportunity</span> The PR can position its mesh WiFi proposal as <em>completing the IMP's unfinished work</em> - using the City's own blueprint.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12: Statistics to Add -->
+<div class="slide" id="slide-11">
+  <h2>IMP Statistics to Incorporate into PR #12</h2>
+  <p class="subtitle">High-impact numbers from the City's own document</p>
+  <div class="stat-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 900px;">
+    <div class="stat-card">
+      <div class="number">$2.1B</div>
+      <div class="label">City's estimated cost for full open-access fiber buildout</div>
+      <div class="source">IMP p.12 - contrast with PR's $50k supernode plan</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">24,000</div>
+      <div class="label">City-owned rooftops and poles mapped for broadband</div>
+      <div class="source">IMP p.64 - validates NYCHA rooftop proposal</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">508</div>
+      <div class="label">Public computer centers citywide</div>
+      <div class="source">IMP p.49 - potential mesh node locations</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">11,000</div>
+      <div class="label">Computer workstations in city facilities</div>
+      <div class="source">IMP p.49 - shows existing digital infra investment</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">60%</div>
+      <div class="label">NYC households with broadband + cellular</div>
+      <div class="source">IMP p.28 - 40% still lack full connectivity</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">650,000</div>
+      <div class="label">Non-subscriber households that could gain broadband</div>
+      <div class="source">IMP p.24 - addressable market for mesh</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 13: Recommendations -->
+<div class="slide" id="slide-12">
+  <h2>Recommended PR Enhancements</h2>
+  <p class="subtitle">Actions based on this cross-reference analysis</p>
+  <ul style="max-width: 900px;">
+    <li><strong>1. Cite the IMP as official precedent.</strong> The PR's mesh WiFi proposal aligns with the IMP's own vision for open access, neutral host wireless, and community networks. Frame it as "completing the City's 2020 plan."</li>
+    <li><strong>2. Add the $142B / 165K jobs economic impact.</strong> These are the City's own projections for universal broadband. They dwarf Chattanooga's case study in persuasiveness.</li>
+    <li><strong>3. Reference IMP Figure 16.</strong> NYC Mesh is already listed as a $0/month provider in the City's official pricing table. This is powerful validation.</li>
+    <li><strong>4. Cite the 24,000 rooftop inventory.</strong> The IMP already mapped city-owned rooftops for broadband. The NYCHA rooftop proposal isn't radical - it's using assets the City already cataloged.</li>
+    <li><strong>5. Use the 2026 franchise renewal window.</strong> The IMP's Figure 20 shows Public Communications franchises renew in 2026. LinkNYC renegotiation has a legal mechanism <em>right now</em>.</li>
+    <li><strong>6. Add the 650,000 household figure.</strong> The IMP projects 650K non-subscriber households could gain broadband through competition. This is the addressable market for mesh.</li>
+    <li><strong>7. Highlight the IMP's Mesh Wi-Fi section.</strong> Page 59 explicitly endorses mesh as reducing cost per user and enabling community ownership. This isn't a fringe idea - it's in the City's plan.</li>
+  </ul>
+</div>
+
+</div><!-- end slideshow -->
+
+<div class="nav">
+  <button id="prev" onclick="changeSlide(-1)">&larr; Prev</button>
+  <div class="dots" id="dots"></div>
+  <span class="counter" id="counter">1 / 13</span>
+  <button id="next" onclick="changeSlide(1)">Next &rarr;</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const counter = document.getElementById('counter');
+  const dotsContainer = document.getElementById('dots');
+
+  // Create dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(dot);
+  }
+
+  function goToSlide(n) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+    counter.textContent = (current + 1) + ' / ' + total;
+  }
+
+  function changeSlide(dir) {
+    let next = current + dir;
+    if (next < 0) next = total - 1;
+    if (next >= total) next = 0;
+    goToSlide(next);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+  });
+</script>
+
+</body>
+</html>
